@@ -1,0 +1,649 @@
+
+{% load static%}
+{% load bootstrap4 %}
+{% block content %}
+
+<!-- Coding by CodingLab | www.codinglabweb.com -->
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!----======== CSS ======== -->
+  <link rel="stylesheet" href="{%static 'profile.css' %}">
+
+<style>
+
+/* Google Font Import - Poppins */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+/* Google Font Import - Cairo */
+@import url('https://fonts.googleapis.com/css2?family=Cairo:slnt,wght@0,500;0,700;2,400&family=Koulen&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+/*    font-family: 'Poppins', sans-serif;*/
+font-family: 'Cairo', sans-serif;
+
+}
+
+:root{
+    /* ===== Colors ===== */
+    --body-color: #E4E9F7;
+    --sidebar-color: #FFF;
+    --primary-color: #695CFE;
+    --primary-color-light: #F6F5FF;
+    --toggle-color: #DDD;
+    --text-color: #707070;
+
+    /* ====== Transition ====== */
+    --tran-03: all 0.2s ease;
+    --tran-03: all 0.3s ease;
+    --tran-04: all 0.3s ease;
+    --tran-05: all 0.3s ease;
+}
+
+body{
+    min-height: 100vh;
+    background-color: var(--body-color);
+    transition: var(--tran-05);
+}
+
+::selection{
+    background-color: var(--primary-color);
+    color: #fff;
+}
+
+body.dark{
+    --body-color: #18191a;
+    --sidebar-color: #242526;
+    --primary-color: #3a3b3c;
+    --primary-color-light: #3a3b3c;
+    --toggle-color: #fff;
+    --text-color: #ccc;
+}
+
+
+</style>
+    <!----======== CSS ======== -->
+    <link rel="stylesheet" href="{%static 'css/profile.css' %}">
+
+
+
+   <div style="  width: 100%;  ">
+   <!----===== Boxicons CSS ===== -->
+         <style>
+           .floating-button {
+
+
+                 background-color: var(--primary-color);
+                 color: white;
+                 padding: 16px;
+                 font-size: 12px;
+                 border: none;
+                 cursor: pointer;
+                 border-radius: 15px;
+                 position: fixed;
+                 bottom: 5%;
+                 margin-right:10%;
+                 z-index: 100;
+
+
+
+           }
+
+           .floating-button:hover {
+             background-color: #666;
+           }
+
+           .floating-button-icon {
+             color: #fff;
+             font-size: 24px;
+           }
+
+           .notification-number {
+             position: absolute;
+             top: -10px;
+             right: 10px;
+             width: 20px;
+             height: 20px;
+             background-color: #ff0000;
+             color: #fff;
+             font-size: 12px;
+             font-weight: bold;
+             border-radius: 50%;
+             display: flex;
+             justify-content: center;
+             align-items: center;
+           }
+         </style>
+
+   <a href="{% url 'Dashboard:Appointment_waiting' %}">
+   <div class="floating-button">   الحجوزات   </div> </a>
+    <div    class="profile" >
+   <style type="text/css">
+
+   .profile-card {
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     max-width: 370px;
+     width: 100%;
+     background: #fff;
+     border-radius: 24px;
+     padding: 25px;
+     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+     position: relative;
+   }
+   .profile-card::before {
+     content: "";
+     position: absolute;
+     top: 0;
+     left: 0;
+    height: 150px;
+     width: 100%;
+     border-radius: 24px 24px 0 0;
+     background-color: var(--primary-color);
+   }
+   .profile-image {
+     position: relative;
+     height: 150px;
+     width: 150px;
+     border-radius: 50%;
+     background-color: var(--primary-color);
+     padding: 3px;
+     margin-bottom: 10px;
+   }
+    .profile-img {
+     height: 100%;
+     width: 100%;
+     object-fit: cover;
+     border-radius: 50%;
+     border: 3px solid #fff;
+   }
+   .profile-card .text-data {
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     color: #333;
+   }
+   .text-data .name {
+     font-size: 22px;
+     font-weight: 500;
+   }
+
+   .profile-card .buttons {
+     display: flex;
+     align-items: center;
+     margin-top: 25px;
+   }
+   .buttons .button {
+     color: #fff;
+     font-size: 13px;
+     font-weight: 400;
+     border: none;
+     border-radius: 24px;
+     margin: 0 5px;
+     padding: 8px 20px;
+     background-color: var(--primary-color);
+     cursor: pointer;
+     transition: all 0.3s ease;
+   }
+   .buttons .button:hover {
+     background-color:var(--primary-color);
+   }
+   .profile-card .analytics {
+
+     align-items: center;
+     margin-top: 25px;
+   }
+
+
+   .profile-info{
+
+   /*    display: flex;*/
+   /*    align-items: center;
+       flex-direction: column;*/
+   /*    margin-top: 15px;*/
+   /*  position: relative;*/
+   /*  float: right;*/
+      width: 100%;
+     text-align: right;
+     font-size: 13px;
+     font-weight: bold;
+    padding-left:  10px;
+     padding-right:    10px;
+   }
+
+
+    li{
+    color: var(--primary-color);
+    width: 100%;
+   /* background-color: #ddd;*/
+    }
+
+   /*-------------------------*/
+
+
+   .profile{
+   position: relative;
+   float: right;
+   width: 25%;
+   margin-right: 5px;
+   margin-left: 15px;
+   }
+
+   .Content{
+    position: relative;
+   float: right;
+   width: 65%;
+
+    }
+
+
+    .offer{
+
+
+      width: 95%;
+     background: #fff;
+     border-radius: 15px;
+     padding: 25px;
+     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+     position: relative;
+
+     margin: 15px;
+    position: relative;
+    float: right;
+   }
+
+
+   .Content{
+    position: relative;
+   float: right;
+   width: 65%;
+   height: 700px;
+   }
+
+
+   @media screen and (max-width: 600px) {
+
+   .profile{
+
+     width: 90%;
+     margin: auto;
+     border-radius: 24px;
+     margin-bottom: 15px;
+   }
+   .profile-card {
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     width: 100%;
+     background: #fff;
+     border-radius: 24px 24px 0px 0px ;
+     padding: 25px;
+   /*  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);*/
+     position: relative;
+   }
+
+   .Content{
+
+   width: 90%;
+   margin: auto;
+   height: auto;
+   }
+</style>
+
+ 
+<div class="profile-card">
+<div class="profile-image">
+<img src="{% static 'images/profile1.png' %}" alt="Profile Image"class=" profile-img ">
+</div>
+<div class="text-data">
+<span class="name">{{patient.name}}</span>
+</div>
+<div class="buttons">
+<a href="{% url 'Dashboard:update_patient' patient_id=patient.id %}">
+<button class="button">تعديل البيانات</button></a>
+<a href="{% url 'Dashboard:NEW_appointment'  %}?" >
+<button class="button">إضافة عرض</button></a>
+</div>
+<div class="analytics">
+<div class="profile-info">  <li>  <samp style="padding-left: 8px;color: var(--primary-color);"> تاريخ الانضمام :</samp> {{patient.date_joined}}</li> </div>
+<div class="profile-info"><li>   <samp style="padding-left: 8px;color: var(--primary-color);">  رقم الملف :</samp>
+{{patient.FileNnumber }}</li></div>
+<div class="profile-info"> <li>  <samp style="padding-left: 8px;color: var(--primary-color);">   العمر :</samp>
+{{patient.age}}</li>
+</div>
+<div class="profile-info">  <li> <samp style="padding-left: 8px;color: var(--primary-color);">   النوع : </samp>
+{{patient.gender }}</li>
+</div>
+<div class="profile-info"><li>   <samp style="padding-left: 8px;color: var(--primary-color);">  رقم الجوال :</samp>
+{{patient.phone}}</li> </div>
+<!-- <div class="profile-info"> <li>  <samp style="padding-left: 8px;color: var(--primary-color);">  بريد إلكتروني : </samp>
+{{patient.email}}</li> </div>
+<div class="profile-info"> <li>   <samp style="padding-left: 8px;color: var(--primary-color);">   الدولة :</samp>
+{{patient.country }}</li> </div>
+<div class="profile-info"><li>   <samp style="padding-left: 8px;color: var(--primary-color);">   المدينة : </samp>
+{{patient.city }}</li> </div>
+<div class="profile-info"> <li>  <samp style="padding-left: 8px;color: var(--primary-color);">   الحي السكني :</samp>
+{{patient.district }}
+ </li>
+ </div> -->
+<div class="profile-info"> <li>  <samp style="padding-left: 8px;color: var(--primary-color);">   العنوان التفصيلي :</samp><br>
+{{patient.Detailedaddress }}
+</li>
+
+
+</div></div></div></div>
+</div>
+<div class="Content" >
+<style type="text/css">
+    .scroller {
+     width:100%;
+     height: 700px;
+     overflow-y: scroll;
+     scrollbar-color: rebeccapurple green;
+     scrollbar-width: thin;
+   }
+</style>
+   <div class="header-flex" >
+    <div  class='head-flex' style="text-align: center;font-weight: bold;; margin-top: 10px;">
+   <div class="inf-text"> <samp style=" color: var(--primary-color);  font-size: 20px;
+     font-weight: bold;"> {{countAppointment}}</samp><br>
+    اجمالى عدد الحجوزات</div></div>
+    <div  class='head-flex'  style="  text-align: center;font-weight: bold;margin-top: 10px;">
+   <div class="inf-text"> <samp style="color: var(--primary-color);  font-size: 20px;
+     font-weight: bold;"> {{total_price}}</samp> <br>
+   اجمالى المدفوعات</div></div>
+    <div  class=" head-flex"style='margin-top: 10px;'>
+   <div class="inf-text"style="text-align: center;font-weight: bold;"> <samp style=" color: var(--primary-color);  font-size: 20px;
+     font-weight: bold;">{{ last_created_at|timesince   }}</samp><br>
+    اخر زيارة </div></div>
+
+
+   <style type="text/css">
+   .offer-flex {
+    width: 50%;
+    padding: 8px;
+   /* height: 50px;*/
+    position: relative;
+    float: right;
+     text-align: right;
+     font-size: 13px;
+     font-weight: bold;
+
+   /* padding-left:  10px;
+     padding-right:    10px;*/
+   }
+   .header-flex{
+     position: relative;
+     float:right;
+     width: 93%;
+     background-color: #fff;
+     border-radius: 15px;
+     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+     margin: 10px auto;
+     height: auto;
+     margin-right: 3%;
+     padding-bottom: 10px;
+   }
+   .head-flex{
+   position: relative;
+   float: right;
+   width: 33%;
+   }
+   .card-flex{
+   position: relative;
+   float: right;
+   width: 100%;
+   }
+   .card-flex-buttons{
+   position: relative;
+   float: right;
+   width: 20%;
+   margin-top: 8px;
+   }
+   .offer-flex-rigth{
+   position: relative;
+   float: right;
+   width: 33%;
+   margin-top: 5px;
+   }
+   @media screen and (max-width: 600px) {
+   .offer-flex {
+     width: 100%;
+     padding: 8px;
+     position: relative;
+     float: right;
+     text-align: right;
+     font-size: 13px;
+     font-weight: bold;
+     margin: 1px;
+   }
+   .header-flex{
+     width: 100%;
+     background-color: #fff;
+     border-radius: 15px;
+     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+     margin: 3px auto;
+     height: auto;
+     margin: auto;
+   }
+   .head-flex{
+   position: relative;
+   float: right;
+   width: 100%;
+   }
+   .card-flex{
+   position: relative;
+   float: right;
+   width: 100%;
+   }
+   .card-flex-buttons{
+   margin-top: 8px;
+   position: relative;
+   float: right;
+   width: 50%;
+   }
+
+   .offer-flex-rigth{
+   width: 100%;}
+   }
+
+   </style>
+   </div>
+   <div class="scroller" >
+
+   <!-- srart -->
+{% if appointments %}
+{% for appointment in appointments %}
+<div class="offer">
+<div  class="offer-flex" style="width: 100%; text-align: center; border-bottom:3px solid var(--primary-color);  margin-bottom: 8px;">
+<h3>        بيانات الحجز
+</h3>
+<div class="inf-text" style="margin-top: 15px;"> <samp style="padding-left: 8px;color: var(--primary-color);"> حاله الحجز : </samp>
+<samp style=" background-color: var(--primary-color); padding:0px 8px 0px 8px  ;color: #fff;border-radius: 8px; font-size:13px;   ">
+{{ appointment.status_appointment }}
+</samp>  </div>
+</div>
+<div  class="offer-flex">
+<div class="card-flex">
+<table class="table">
+<th class="th">
+<li>
+   تاريخ الإنشاء :
+</li>
+</th>
+<td  class="td">
+{{ appointment.created_at }}
+ </td>
+</table>
+</div>
+</div>
+<div  class="offer-flex">
+<div class="card-flex">
+<table class="table">
+<th class="th">
+<li>
+    كيف عرفتنا  :
+</li>
+</th>
+<td  class="td">
+{{ appointment.get_knew_from_display }}
+</td>
+</table>
+</div>
+</div>
+<div  class="offer-flex">
+<div class="card-flex">
+<table class="table">
+<th class="th">
+<li>
+   القسم :</li>
+</th>
+<td  class="td">
+{{ appointment.category_id }}
+</td>
+
+</table>
+</div>
+</div>
+
+<div  class="offer-flex">
+<div class="card-flex">
+<table class="table">
+ <th class="th">
+ <li>
+ الدكتور :</li>
+</th>
+<td  class="td">
+{{ appointment.doctor_id }}
+ </td>
+</table>
+</div>
+</div>
+<div  class="offer-flex">
+<div class="card-flex">
+<table class="table">
+<th class="th">
+<li>
+   تاريخ الحجز :</li>
+</th>
+{% if appointment.date %}
+<td class="td" style="text-align: right;">{{ appointment.date|date:"Y-m-d" }}</td>
+{% else %}
+<td class="td" style="text-align: right;">لا يوجد تاريخ</td>
+{% endif %}
+</table>
+</div>
+</div>
+<div  class="offer-flex">
+<div class="card-flex">
+<table class="table">
+<th class="th">
+<li>
+   الميعاد :
+</li>
+</th>
+{% if appointment.time %}
+<td class="td" style="text-align: right;">{{ appointment.time }}</td>
+{% else %}
+<td class="td" style="text-align: right;">    لا يوجد وقت  </td>
+{% endif %}
+</table>
+</div>
+</div>
+<div  class="offer-flex" style="width: 100%; text-align: center;border-bottom:3px solid var(--primary-color); ">
+<div class="inf-text"> <samp style="padding-left: 8px;color: var(--primary-color);">  العروض :</samp> <br>  </div>
+<div style="width: 98%;margin:auto; ">
+<div style="  border: 2px solid var(--primary-color); border-radius: 8px;  padding: 20px; margin: 3px;  float: right; " >
+<samp style="padding-left: 8px;"> {{ appointment.serviceName}}</samp><br>
+<samp class='buttonoffersamp2'  style="  font-size:13px;">
+<samp>  {{ appointment.price}}</samp>  <samp>ريال</samp>
+</samp>
+</div>
+</div>
+   <style type="text/css">
+   .buttonoffer{
+   border: 2px solid var(--primary-color);
+    border-radius: 8px;
+    padding: 3px; margin:5px; float: right;}
+
+   .buttonoffer{
+     border: 2px solid var(--primary-color);
+    border-radius: 8px;
+    padding: 3px; margin:5px; float: right; }
+
+   .buttonoffersamp1{padding-left: 8px;}
+   .buttonoffersamp2{ background-color: var(--primary-color);
+    padding:0px 8px 0px 8px;
+   color: #fff;border-radius: 0px 8px 0px 8px ; font-size:13px;}
+    </style>
+   </div>
+    <div  class="offer-flex" style="width: 90%; text-align: center;">
+    <div class="inf-text" style="text-align: right;"> <samp style="padding-left: 8px;color: var(--primary-color);"> ملاحظه المريض :</samp><br>   {{ appointment.Message }}   </div>
+ {{ appointment.note}}
+   </div>
+   <div  class="offer-flex" style="width: 90%; text-align: center;">
+   <div class="buttons">
+    <div class="card-flex-buttons">
+<a href="{% url 'Dashboard:update_appointment' id=appointment.id %}">
+   <button class="button">تعديل البيانات</button>  </a>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <script>
+    // Get all buttons with class "open-modal"
+    var openModalButtons = document.querySelectorAll('.open-modal');
+
+    // Loop through the buttons and add a click event listener to each
+    openModalButtons.forEach(function(button) {
+      button.addEventListener('click', function() {
+        // Get the modal ID from the "data-modal-id" attribute
+        var modalId = button.getAttribute('data-modal-id');
+        // Get the modal element with the ID
+        var modal = document.getElementById(modalId);
+        // Get the <span> element that closes the modal
+        var span = modal.querySelector('.close');
+        // Show the modal
+        modal.style.display = "block";
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function() {
+          modal.style.display = "none";
+        }
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+          if (event.target == modal) {
+            modal.style.display = "none";
+          }
+        }
+      });
+    });
+    </script>
+  </div> </div>
+    {% endfor %}
+
+    {% else %}
+    <p>No appointments found for {{patient.first_name}}.</p>
+    {% endif %}
+
+   <!-- xxxxxxxxxx -->
+
+
+       </div> </div>
+
+
+       </section>
+
+{% endblock %}

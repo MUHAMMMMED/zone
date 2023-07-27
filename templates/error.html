@@ -1,0 +1,43 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+
+body {
+  background:#fff;
+}
+
+.container {
+  position: relative;
+  width: 100%;
+  max-width: 800px;
+  margin: auto;
+  margin-top: 5%;
+}
+
+.container img {
+  width: 100%;
+  height: auto;
+}
+
+/* Media query for mobile devices */
+@media only screen and (max-width: 600px) {
+  .container {
+    max-width: 100%;
+    margin-top: 35%;
+  }
+}
+
+</style>
+</head>
+<body>
+
+<div class="container">
+  <img src="{% static 'images/back.jpg' %}" alt="Background Image">
+</div>
+
+</body>
+</html>

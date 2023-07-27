@@ -1,0 +1,1105 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+
+<style>
+  table {
+    border-collapse: collapse;
+    width: 100%;
+
+  }
+  th, td {
+    text-align: center;
+    padding: 8px;
+    border: 1px solid #ddd;
+
+  }
+  .th {
+    background-color:#695cfe;
+    color: white;
+  }
+  tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  tr:hover {
+    background-color: #ddd;
+  }
+</style>
+
+
+<div class="Analytics" >
+  	<main>
+
+
+   <style media="screen">
+.sidebar{display:none;}
+
+.home{  width:100%;}
+
+     main {
+   margin: 20px;
+  }
+
+  section {
+   margin-bottom: 40px;
+  }
+
+  h2 {
+   font-size: 24px;
+   margin-top: 40px;
+   margin-bottom: 20px;
+  }
+
+  p {
+   margin-bottom: 20px;
+   line-height: 1.5;
+  }
+
+  table {
+   border-collapse: collapse;
+   width: 100%;
+   margin-bottom: 40px;
+  }
+
+  th, td {
+   padding: 10px;
+   text-align: center;
+
+  }
+
+  th {
+   background-color: #fff;
+  }
+
+  tr {
+   background-color: #fff;
+    margin-top: 10px;
+  }
+    </style>
+
+
+
+
+
+
+    <style media="screen">
+      section {
+        background-color: #fff;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+      }
+      .visits-container {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        background-color: #f8f8f8;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 10px;
+        margin-bottom:50px;
+      }
+
+      .visits-item {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+      }
+
+      .visits-label{
+        font-size: 18px;
+        font-weight: bold;
+      }
+
+      .visits-value {  color:#7e91dc;
+        font-size: 16px;  font-weight: bold;
+      }
+
+      @media only screen and (min-width: 768px) {
+        .visits-container {
+          flex-direction: row;
+          align-items: center;
+          justify-content: space-between;
+        }
+
+        .visits-item {
+          flex-direction: row;
+          gap: 20px;
+        }
+
+        .visits-label {
+          font-size: 20px;
+        }
+
+        .visits-value {  font-weight: bold;
+          color:#7e91dc;
+          font-size: 18px;
+        }
+      }
+
+    </style>
+
+     <style type="text/css">
+    .Analytics{
+    width: 90%;
+    margin: auto;
+    padding-bottom: 50px;
+
+    }
+
+    .Analytics-card{
+    position: relative;
+    float: right;
+    margin: 12px;
+    width: 31%;
+    background-color: #fff;
+    text-align: right;
+    border-radius: 8px;
+    padding-right:18px;
+    padding-top: 15px;
+       }
+
+
+    @media screen and (max-width: 600px){
+
+    .Analytics-card{
+
+    width: 100%;
+    background-color: #fff;
+    text-align: right;
+    border-radius: 8px;
+    padding-right:15px;
+    padding-top: 15px;
+     margin: auto;
+
+     margin-top: 10px;
+       }
+
+
+     .Analytics{
+    width: 90%;  margin:  auto;
+    padding-bottom: 50px;
+
+    }
+
+
+    }
+
+
+    </style>
+
+
+
+
+
+         <style>
+     .Section {width: 100%; margin: auto; margin-top: 150px; padding-bottom: 50px; height:auto;}
+
+    .container {
+      background-color: #f2f2f2;
+      padding: 5px 20px 15px 20px;
+      border: 1px solid lightgrey;
+      border-radius: 3px;
+    }
+
+    input[type=text] {
+      width: 100%;
+      margin-bottom: 20px;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+    }
+
+    label {
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    .icon-container {
+      margin-bottom: 20px;
+      padding: 7px 0;
+      font-size: 24px;
+    }
+
+    .btn {
+      background-color: #04AA6D;
+      color: white;
+      padding: 12px;
+      margin: 10px 0;
+      border: none;
+
+      border-radius: 3px;
+      cursor: pointer;
+      font-size: 17px;
+    }
+
+    .btn:hover {
+      background-color: #45a049;
+    }
+
+    @media screen and (max-width: 600px){
+
+    }
+
+         * {
+           box-sizing: border-box;
+         }
+
+         form{padding: 15px;
+          margin-top: 15px;
+          width: 99%;
+         background-color: #fff;
+           border: 1px solid #ccc;
+           border-radius: 8px;
+           margin :  0.5%;
+           margin-bottom:50px ;
+         }
+
+
+         .form-group {
+           margin-bottom: 10px;
+
+
+         }
+
+         label {
+           display: block;
+           margin-bottom: 5px;
+           font-weight: bold;
+           text-align: center;
+         }
+
+         select,
+         input[type="number"],
+         input[type="time"],
+         input[type="date"]{
+           width: 100%;
+           padding: 10px;
+           border: 1px solid #ccc;
+           border-radius: 5px;
+           font-size: 16px;
+           line-height: 1.5;
+         }
+
+         .form-group-inline {
+           display: inline-block;
+
+
+           width: 24%;
+         }
+
+         .form-group-inline1 {
+           display: inline-block;
+
+
+           width: 32.8%;
+         }
+         .form-group-buttons {
+           display: flex;
+           justify-content: space-between;
+         }
+
+         .submit ,
+         .reset   {
+           width: 48%;
+           padding: 10px;
+           border: none;
+           border-radius: 5px;
+           font-size: 16px;
+           font-weight: bold;
+           color: #fff;
+           background-color:var(--primary-color);
+           cursor: pointer;
+         }
+         .submit:hover ,
+         .reset:hover {
+           background-color: var(--primary-color);
+         }
+          .search{    width: 100%;
+
+           padding: 10px;
+           border: none;
+           border-radius: 5px;
+           font-size: 16px;
+           font-weight: bold;
+           color: #fff;
+           background-color:var(--primary-color);
+           cursor: pointer;
+
+              }
+          .button{
+           padding: 10px;
+           border: none;
+           border-radius: 5px;
+           font-size: 16px;
+           font-weight: bold;
+           color: #fff;
+           background-color:var(--primary-color);
+           cursor: pointer;
+
+              }
+
+    .Analytics-card-dash{
+      position: relative;
+      float: right;
+      background-color: #fff;
+      width: 49%;
+       margin-bottom : 25px;
+       padding: 20px;
+       border-radius: 8px;
+    /*    margin-top: 50px;*/
+     border: 1px solid #ccc;
+
+    margin :  0.5%;
+      }
+
+     @media only screen and (max-width: 600px) {
+           .form-group-inline {  width: 100%;display: block; margin-right: 0;
+
+
+
+           }
+           .form-group-inline1 {
+             width: 100%;
+             display: block;
+             margin-right: 0;
+           }
+
+
+           .reset  { display: none;
+             width: 100%;
+             margin-top: 10px;
+           }
+
+           .submit {
+             width: 100%;
+             margin-top: 10px;
+           }
+
+
+
+          .search{   width: 100%;margin-top: 10px;  }
+
+
+            .button{    width: 100%; margin-top: 10px;   }
+            .Analytics-card-dash{
+              background-color: #fff; width: 100%;margin-bottom : 25px; position: relative; border: 1px solid #ccc; }
+
+         }
+
+
+
+    </style>
+
+
+
+    {% if message %}
+      <p>{{ message }}</p>
+    {% else %}
+      <!-- Rest of the template for the report -->
+      <!-- ... -->
+    {% endif %}
+
+
+    <section class="Section" >
+      <h2>مقدمة</h2>
+      <p  style =" padding: 25px;
+       text-align: center;
+        font-size: 15px;">
+
+       المقدمة خلال فترة زمنية محددة. يتم ذلك من خلال تحليل بعض المؤشرات الهامة مثل عدد الزيارات للموقع، وعدد الحجوزات التي تم إجراؤها خلال الفترة الزمنية، وعدد النقرات على زر الواتساب، وعدد مشاهدات الصفحات لكل فئة من الفئات المتاحة على الموقع.
+
+  سيتم عرض هذه المؤشرات بشكل مفصل في التقرير، بالإضافة إلى بعض الإحصائيات الأخرى المهمة التي تساعد على فهم أداء الموقع وتحديد المجالات التي يمن الممكن تحسينها. وبناءً على هذه البيانات، يمكن اتخاذ قرارات استراتيجية لتحسين أداء الموقع وزيادة عدد المستخدمين والحجوزات.
+
+  يتم إعداد هذا التقرير لصاحب الموقع ولفريق العمل، ويمكن استخدامه كأداة لتحسين جودة الخدمة ورفع مستوى الرضا لدى العملاء. نأمل أن يكون هذا التقرير مفيدًا ومفصلًا، ويساعد على فهم أداء الموقع بشكل أفضل واتخاذ الإجراءات اللازمة لتحسينه.    </p>
+    </section>
+
+      <section  style =" margin-top:20px;   ">
+    <table>
+    <tbody>
+      <tr>
+      <td class="th">  الايراد </td>
+      <td>{{count_price_visit}}</td>
+      </tr>
+
+      <tr>
+      <td class="th">  عدد العملاء </td>
+      <td>{{CountـPatient}}</td>
+      </tr>
+
+    <tr>
+    <td class="th">  اجمالى  الحجز  </td>
+    <td>{{Total_booking}}</td>
+    </tr>
+    <tr>
+    <td class="th">   إجمالي نقرات الواتساب      </td>
+    <td>{{Total_click_whatsapp}}</td>
+    </tr>
+
+    <tr>
+    <td class="th">  اجمالى الزيارات الموقع       </td>
+    <td>{{Total_views}}</td>
+    </tr>
+    </tbody>
+    </table>
+    </section>
+
+
+
+
+
+
+
+
+
+
+
+  <section class="Section"style =" margin-bottom:20px;  background-color:none; padding:0px;">
+
+<form method="get"id="search"style ="      border: 0px solid lightgrey;">
+{% csrf_token %}
+<div class="form-group form-group-inline1">
+<label  >Start Time</label>
+<input type="date" name="start_date" value="{{ start_date }}">
+</div>
+<div class="form-group form-group-inline1">
+<label  >End Time</label>
+<input type="date" name="end_date" value="{{ end_date }}">
+</div>
+ <div class="form-group form-group-inline1">
+<button type="submit" class="search"name="form2_submit" >search</button>
+</div>
+</form>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<section class="Section">
+<h2>   نتائج الفئة</h2>
+<table>
+<thead>
+<tr>
+ <th class="th"> فئة</th>
+ <th class="th">مشاهدات الصفحة</th>
+ <th class="th"> نقرات الواتساب  </th>
+ <th class="th">  الحجز  </th>
+</tr>
+</thead>
+<tbody>
+
+
+
+
+
+
+
+
+
+
+  <tr>
+  <td> الصفحه الرئيسيه </td>
+  <td>{{ pixel_stats.views_Home__sum }}</td>
+  <td>{{ pixel_stats.click_whatsapp_Home__sum }}</td>
+  <td> </td>
+   <tr>
+
+
+
+
+<tr>
+<td>تهانينا بنجاح الحجز</td>
+<td>{{ pixel_stats.views_Confirmation__sum }}</td>
+<td> </td>
+<td> </td>
+</tr>
+<tr>
+<td>    الروابط المجمّعة  </td>
+<td>{{ pixel_stats.views_Link_page__sum }}</td>
+<td> </td>
+<td> </td>
+
+</tr>
+
+
+
+<tr>
+<td>   الأطباء  </td>
+<td>{{ pixel_stats.click_whatsapp_Doctor__sum }}</td>
+ <td>{{ pixel_stats.view_Doctor__sum }}</td>
+<td> </td>
+</tr>
+
+
+
+<tr>
+<td>العروض المجمعه</td>
+<td>{{ pixel_stats.views_Allcategories__sum }}</td>
+<td>{{ pixel_stats.click_whatsapp_Allcategories__sum }}</td>
+<td> </td>
+</tr>
+
+
+
+
+
+{% for category in categories_stats %}
+<tr>
+    <td>{{ category.name }}</td>
+    <td>{{ category.views }}</td>
+    <td>{{ category.click_whatsapp }}</td>
+    <td>{{ category.booking }}</td>
+</tr>
+{% endfor %}
+
+
+
+
+<!--
+{% for category in categories_appointment_counts %}
+ <tr>
+ <td>  {{ category.category_id__Name}}</td>
+ <td>    {% if category.views is not None %}
+ {{ category.views }}
+ {% else %}
+ 0
+ {% endif %} </td>
+ <td>
+ {% if category.Click_whatsapp  is not None %}
+ {{ category.Click_whatsapp }}
+ {% else %}
+ 0
+ {% endif %}
+ </td>
+ <td>
+{{ category.count }}
+</td>
+</tr>
+{% endfor %} -->
+ </tbody>
+</table>
+</section>
+ <section class="Section">
+ <h2> نتائج الأطباء  </h2>
+ <table>
+ <thead>
+ <tr>
+ <th class="th">
+  الأطباء</th>
+ <th class="th"> مشاهدات الصفحة</th>
+ <th class="th"> نقرات الواتساب  </th>
+ <th class="th"> الحجز  </th>
+ </tr>
+ </thead>
+ <tbody>
+
+   {% for doctor in doctor_stats %}
+   <tr>
+       <td>{{ doctor.name }}</td>
+       <td>{{ doctor.views }}</td>
+       <td>{{ doctor.click_whatsapp }}</td>
+       <td>{{ doctor.booking }}</td>
+   </tr>
+   {% endfor %}
+
+<!--
+
+ {% for doctor in doctor_appointment_counts %}
+ <tr>
+ <td>{{ doctor.doctor_id__Name }}</td>
+ <td>
+{% if doctor.views_count is not None %}
+ {{ doctor.views_count }}
+ {% else %}
+ 0
+ {% endif %} </td>
+ <td>
+ {% if doctor.click_count is not None %}
+ {{ doctor.click_count}}
+ {% else %}
+ 0
+ {% endif %}
+ </td>
+ <td>
+ {{ doctor.appointment_count }}
+ </td>
+ </tr>
+{% endfor %} -->
+ </tbody>
+ </table>
+ </section>
+ <section class="Section">
+ <h2>نتائج العروض</h2>
+ <table>
+ <thead>
+ <tr>
+ <th class="th">العروض</th>
+ <th class="th">مشاهدات الصفحة</th>
+ <th class="th"> نقرات الواتساب  </th>
+ <th class="th"> الحجز  </th>
+ </tr>
+ </thead>
+ <tbody>
+ <!-- {% for service in service_appointment_counts %}
+ <tr>
+ <td>{{  service.service__Title }}</td>
+ <td>
+ {% if service.views_count is not None %}
+ {{ service.views_count }}
+ {% else %}
+ 0
+ {% endif %}
+</td>
+ <td>
+{% if service.click_count is not None %}
+ {{ service.click_count }}
+ {% else %}
+ 0
+ {% endif %}
+ </td>
+ <td>
+ {{ service.appointment_count }}
+</td>
+ </tr>
+ {% endfor %} -->
+
+
+ {% for service_stat in service_stats %}
+ <tr>
+     <td>{{ service_stat.name }}</td>
+     <td>{{ service_stat.views }}</td>
+     <td>{{ service_stat.click_whatsapp }}</td>
+     <td>{{ service_stat.booking }}</td>
+ </tr>
+ {% endfor %}
+
+
+
+ </tbody>
+ </table>
+ </section>
+
+
+
+
+
+
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<section class="Section" style=" background-color: #e4e9f7;    box-shadow: 0 0px 0px rgba(0, 0, 0, 0.0);">
+<div style="margin-bottom: 20px;padding: 15px;
+       margin-top: 15px;
+       width: 100%;
+       background-color: #fff;
+       border: 1px solid #ccc;
+       border-radius: 8px; display: none;">
+
+<div  class="Analytics-card">
+<div style="width: 100%; position: relative;color:var(--primary-color); "><h5 >  عدد الحجز  </h5></div>
+<p style=" text-align: center;  font-size: 10px;  padding: 0px;margin: 0px; margin-top: -10px;   "> ا لاجمالى       </p>
+<div style="width: 100%; text-align: center;  font-size: 30px;"> <p> 3333333 </p></div></div>
+
+<div  class="Analytics-card">
+<div style="width: 100%; position: relative;color:var(--primary-color); "><h5 >   الايراد المتوقع</h5></div>
+<p style=" text-align: center;  font-size: 10px;  padding: 0px;margin: 0px; margin-top: -10px;   "> ا لاجمالى       </p>
+<div style="width: 100%; text-align: center;  font-size: 30px;"> <p> 3333333 </p></div></div>
+
+
+<div  class="Analytics-card">
+<div style="width: 100%; position: relative;color:var(--primary-color); "><h5 >   لايراد الفعلى</h5></div>
+<p style=" text-align: center;  font-size: 10px;  padding: 0px;margin: 0px; margin-top: -10px;   "> ا لاجمالى       </p>
+<div style="width: 100%; text-align: center;  font-size: 30px;"> <p> 3333333 </p></div></div>
+   </div>
+
+
+<div style="width: 100%; position: relative; float: right;padding-bottom: 30px;">
+
+<div  class="Analytics-card-dash"  >
+<h2 style="text-align: center;">  الحجزات</h2>
+<div id="piechart"  ></div>
+
+<script type="text/javascript">
+// Load google charts
+google.charts.load('current', {'packages':['corechart']});
+google.charts.setOnLoadCallback(drawChart);
+
+
+    // Draw the chart and set the chart values
+    function drawChart() {
+      var data = google.visualization.arrayToDataTable([
+       ['Status', 'Count'],
+       ['نتظار', {{ count_waiting }}],
+       ['عدم الرد', {{ count_notanswering }}],
+       ['الاستفسار', {{ count_inquiries }}],
+       ['مؤكد', {{ count_confirmed }}],
+       ['حجز فائت', {{ count_missed_reservation }}],
+       ['حضر', {{ count_visit }}],
+       ['الغاء', {{ count_cancel }}]
+     ]);
+
+      // Optional; add a title and set the width and height of the chart
+      var options = {'title':' الحجزات',   'height':300};
+
+  // Display the chart inside the <div> element with id="piechart"
+  var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+  chart.draw(data, options);
+}
+</script> </div>
+
+
+<div  class="Analytics-card-dash"  >
+<h2 style="text-align: center;">  حالة العميل</h2>
+<div id="piechart1"  ></div>
+
+<script type="text/javascript">
+// Load google charts
+google.charts.load('current', {'packages':['corechart']});
+google.charts.setOnLoadCallback(drawChart);
+
+// Draw the chart and set the chart values
+
+  function drawChart() {
+
+    var data = google.visualization.arrayToDataTable([
+    ['ClientStatus', 'Count'],
+    ['جديد', {{ ClientStatus_New }}],
+    ['قديم', {{ ClientStatus_Old }}],
+    ['غير محدد', {{ ClientStatus_Undefined }}]
+  ]);
+
+
+  // Optional; add a title and set the width and height of the chart
+  var options = {'title':' حالة العميل',   'height':300};
+
+  // Display the chart inside the <div> element with id="piechart"
+  var chart = new google.visualization.PieChart(document.getElementById('piechart1'));
+  chart.draw(data, options);
+}
+</script> </div>
+
+
+<!--
+
+<div  class="Analytics-card-dash"  >
+<h2 style="text-align: center;">     إجمالي النتائج</h2>
+<div id="piechart2"  ></div>
+
+<script type="text/javascript">
+// Load google charts
+google.charts.load('current', {'packages':['corechart']});
+google.charts.setOnLoadCallback(drawChart);
+
+// Draw the chart and set the chart values
+
+  function drawChart() {
+  {% for web in web %}
+    var data = google.visualization.arrayToDataTable([
+    ['ClientStatus', 'Count'],
+    ['اجمالى الزيارات الموقع ', {{ total_views }}],
+    ['اجمالى  الحجز', {{ web.views_confirmation  }}],
+    ['  إجمالي نقرات الواتساب', {{ total_clicks }}]
+  ]);
+
+ {% endfor %}
+
+
+  // Optional; add a title and set the width and height of the chart
+  var options = {'title':'  إجمالي النتائج',   'height':300};
+
+  // Display the chart inside the <div> element with id="piechart"
+  var chart = new google.visualization.PieChart(document.getElementById('piechart2'));
+  chart.draw(data, options);
+}
+</script> </div>
+
+
+<div  class="Analytics-card-dash"  >
+<h2 style="text-align: center;">     phone</h2>
+<div id="piechart3"  ></div>
+
+<script type="text/javascript">
+// Load google charts
+google.charts.load('current', {'packages':['corechart']});
+google.charts.setOnLoadCallback(drawChart);
+
+// Draw the chart and set the chart values
+
+
+
+  function drawChart() {
+
+    var data = google.visualization.arrayToDataTable([
+    ['ClientStatus', 'Count'],
+    ['phone_count ', {{ phone_count }}],
+    ['unique_phone_count', {{ unique_phone_count }}],
+    ['distinct_phones محدد', {{ distinct_phones }}]
+  ]);
+
+
+  // Optional; add a title and set the width and height of the chart
+  var options = {'title':' حالة العميل',   'height':300};
+
+  // Display the chart inside the <div> element with id="piechart"
+  var chart = new google.visualization.PieChart(document.getElementById('piechart3'));
+  chart.draw(data, options);
+}
+</script> </div>
+
+
+ -->
+
+<div  class="Analytics-card-dash"  >
+<h2 style="text-align: center;">    اجمالي الحجزات التصنيفات الموقع          </h2>
+<div id="myChart11"></div>
+<script>
+google.charts.load('current', {'packages':['corechart']});
+google.charts.setOnLoadCallback(drawChart);
+
+function drawChart() {
+  // Create a DataTable object
+
+  var data = google.visualization.arrayToDataTable([
+  ['category', 'total'],
+  {% for category in categories_stats  %}
+  ['{{category.name }}', {{ category.booking }}],
+  {% endfor %}
+  ]);
+
+
+
+
+
+
+
+  var options = {'title': 'التصنيفات', 'height': 500};
+  var chart = new google.visualization.BarChart(document.getElementById('myChart11'));
+  chart.draw(data, options);
+}
+</script>
+</div>
+
+
+<div  class="Analytics-card-dash"  >
+<h2 style="text-align: center;">  اجمالي الحجوزات الخدمات الموقع       </h2>
+<div id="myChart2"></div>
+<script>
+google.charts.load('current', {'packages':['corechart']});
+google.charts.setOnLoadCallback(drawChart);
+
+function drawChart() {
+
+
+var data = google.visualization.arrayToDataTable([ ['service', 'total'],
+ {% for service_stat in service_stats %} ['{{ service_stat.name  }}', {{ service_stat.booking}}], {% endfor %} ]);
+
+
+
+  var options = {'title':'     الخدمات',   'height':500};
+
+var chart = new google.visualization.BarChart(document.getElementById('myChart2'));
+  chart.draw(data, options);
+}
+</script>
+</div>
+
+
+
+
+
+<div  class="Analytics-card-dash"  >
+<h2 style="text-align: center;"> doctor</h2>
+<div id="myChart22"></div>
+<script>
+google.charts.load('current', {'packages':['corechart']});
+google.charts.setOnLoadCallback(drawChart);
+
+function drawChart() {
+var data = google.visualization.arrayToDataTable([
+
+
+   ['doctor', 'total'],
+
+   {% for doctor in doctor_stats %}
+
+
+    [' {{ doctor.name  }} ', {{ doctor.booking}}],
+
+{% endfor %}
+
+  ]);
+
+
+
+
+
+  var options = {'title':'doctor   ',   'height':500};
+
+var chart = new google.visualization.BarChart(document.getElementById('myChart22'));
+  chart.draw(data, options);
+}
+</script>
+</div>
+
+
+
+
+
+<div class="Analytics-card-dash">
+  <h2 style="text-align: center;">كيف عرفتنا</h2>
+  <div id="myChart"></div>
+  <script>
+    google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+      var data = google.visualization.arrayToDataTable([
+        ['string', 'knew_from'],
+        {% for count in knew_from %}
+          ['{{ count.knew_from }}', {{ count.count }}],
+        {% endfor %}
+      ]);
+      var options = {
+        'title': 'كيف عرفتنا',
+        'height': 500
+      };
+
+      var chart = new google.visualization.BarChart(document.getElementById('myChart'));
+      chart.draw(data, options);
+    }
+  </script>
+</div>
+
+
+<div  style="margin-top:15px;"  > <br> <br>
+<table>
+<tbody>
+<tr>
+<td class="th">  الايراد </td>
+<td>{{count_price_visit}}</td>
+</tr>
+
+<tr>
+<td class="th"> نسبة الايراد من اجمالي المفقود </td>
+  <td>{{percentage}} </td>
+</tr>
+
+<tr>
+<td class="th">  المفقود </td>
+<td  style ="color:red;">
+
+ {{missing}}</td>
+</tr>
+
+</tbody>
+</table>
+
+</div>
+
+
+
+<div class="Analytics-card-dash">
+ <h2 style="text-align: center;"> المفقود في الخدمات </h2>
+ <div id="myChart99"></div>
+ <script src="https://www.gstatic.com/charts/loader.js"></script>
+ <script>
+   google.charts.load('current', {'packages':['corechart']});
+   google.charts.setOnLoadCallback(drawChart);
+
+   function drawChart() {
+     var data = google.visualization.arrayToDataTable([
+       ['missing', 'total'],
+       {% for service, price in service_price.items %}
+         ['{{ service }}', {{ price }}],
+       {% endfor %}
+     ]);
+
+     var options = {
+       'title': ' المفقود في الخدمات',
+       'height': 500
+     };
+
+     var chart = new google.visualization.BarChart(document.getElementById('myChart99'));
+     chart.draw(data, options);
+   }
+ </script>
+</div>
+
+
+
+
+
+<div  class="Analytics-card-dash"  >
+<h2 style="text-align: center;">  الحجوزات المفقودة</h2>
+<div id="myChart55"></div>
+<script>
+google.charts.load('current', {'packages':['corechart']});
+google.charts.setOnLoadCallback(drawChart);
+
+function drawChart() {
+
+  var data = google.visualization.arrayToDataTable([ ['missing', 'total'],
+   {% for item in price_by_status %} ['{{ item.status_appointment }}', {{ item.total_price  }}], {% endfor %} ]);
+
+  var options = {'title':'  missing   ',   'height':500};
+
+var chart = new google.visualization.BarChart(document.getElementById('myChart55'));
+  chart.draw(data, options);
+}
+</script>
+</div>
+
+
+
+
+</div>
+
+
+
+
+
+
+</div>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    {% endblock %}

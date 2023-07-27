@@ -1,0 +1,1018 @@
+
+{% load static%} {% load bootstrap4 %}
+
+{% load custom_filters %}
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!----======== CSS ======== -->
+    <link rel="stylesheet" href="{%static 'css/style.css' %}">
+
+
+    <!--     <link rel="stylesheet" href="profile.css"> -->
+
+    <!----===== Boxicons CSS ===== -->
+    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+
+
+<style type="text/css">
+
+
+
+
+
+
+
+.profile-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 370px;
+  width: 100%;
+  background: #fff;
+  border-radius: 24px;
+  padding: 25px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+.profile-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+ height: 150px;
+  width: 100%;
+  border-radius: 24px 24px 0 0;
+  background-color: var(--primary-color);
+}
+.profile-image {
+  position: relative;
+  height: 150px;
+  width: 150px;
+  border-radius: 50%;
+  background-color: var(--primary-color);
+  padding: 3px;
+  margin-bottom: 10px;
+}
+ .profile-img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid #fff;
+}
+.profile-card .text-data {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #333;
+}
+.text-data .name {
+  font-size: 22px;
+  font-weight: 500;
+}
+
+.profile-card .buttons {
+  display: flex;
+  align-items: center;
+  margin-top: 25px;
+}
+.buttons .button {
+  color: #fff;
+  font-size: 13px;
+  font-weight: 400;
+  border: none;
+  border-radius: 24px;
+  margin: 0 5px;
+  padding: 8px 20px;
+  background-color: var(--primary-color);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.buttons .button:hover {
+  background-color:var(--primary-color);
+}
+.profile-card .analytics {
+
+  align-items: center;
+  margin-top: 25px;
+}
+
+
+.profile-info{
+
+/*    display: flex;*/
+/*    align-items: center;
+    flex-direction: column;*/
+/*    margin-top: 15px;*/
+/*  position: relative;*/
+/*  float: right;*/
+   width: 100%;
+  text-align: right;
+  font-size: 13px;
+  font-weight: bold;
+ padding-left:  10px;
+  padding-right:    10px;
+}
+
+
+ li{
+ color: var(--primary-color);
+ width: 100%;
+/* background-color: #ddd;*/
+ }
+
+
+
+
+/*-------------------------*/
+
+
+.profile{
+position: relative;
+float: right;
+width: 25%;
+margin-right: 5px;
+margin-left: 15px;
+}
+
+
+
+.Content{
+ position: relative;
+float: right;
+width: 65%;
+height: 700px;
+
+ }
+
+
+
+ .offer{
+
+
+   width: 95%;
+  background: #fff;
+  border-radius: 15px;
+  padding: 25px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+  position: relative;
+
+  margin: 15px;
+ position: relative;
+ float: right;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+@media screen and (max-width: 600px) {
+
+
+
+.profile{
+
+  width: 100%;
+  border-radius: 24px;
+  margin-bottom: 15px;
+}
+
+
+
+
+
+.profile-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  background: #fff;
+  border-radius: 24px 24px 0px 0px ;
+  padding: 25px;
+/*  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);*/
+  position: relative;
+}
+
+.Content{  position: relative;float: right;width: 100%;height: 1700px;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div style="  width: 100%; background-color: red;  ">
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class="profile" >
+
+
+
+    <div class="profile-card">
+      <div class="profile-image">
+        <img src="{% static 'images/profile1.png' %}" alt="Profile Image"class=" profile-img ">
+      </div>
+
+      <div class="text-data">
+        <span class="name"> {% if doctor %}{{ doctor.Name }} {% endif %}</span>
+
+      </div>
+
+
+
+
+
+      <div class="buttons">
+            <a href="{% url 'Dashboard:update_doctor' doctor.id %}">
+        <button class="button">تعديل البيانات</button>
+       </a>
+      </div>
+ <div class="analytics">
+       <div class="profile-info"> <li>    <samp style="padding-left: 8px;color: var(--primary-color);">  التخصص:</samp> {% if doctor %}{{ doctor.jobtitle }} {% endif %}</li> </div>
+
+
+ <div class="profile-info"> <li>    <samp style="padding-left: 8px;color: var(--primary-color);">  سعر الكشف :</samp>
+
+{% if doctor %}{{ doctor.pric  }} {% endif %}
+
+</li>
+</div>
+
+
+ <div class="profile-info"> <li>    <samp style="padding-left: 8px;color: var(--primary-color);">    مدة الكشف :</samp>
+
+{% if doctor %}{{ doctor.timetaken }} {% endif %}
+
+</li>
+</div>
+
+
+
+ <div class="profile-info"> <li>    <samp style="padding-left: 8px;color: var(--primary-color);">  مدة الانتظار: </samp>
+
+{% if doctor %}{{ doctor.WaitTime }} {% endif %}
+
+</li>
+</div>
+
+
+
+
+    </div>
+</div>
+
+
+</div>
+
+    <div  class="Content" >
+
+    {% if message %}
+        <p>{{ message }}</p>
+    {% endif %}
+
+
+
+
+<div style=" width: 90%; height: 1000px;margin: 10% auto;
+margin-top:0px;
+padding-bottom: 150px;">
+
+
+     <style>
+     * {box-sizing: border-box;}
+     ul {list-style-type: none;}
+
+
+     .month {box-shadow: rgba(50, 50, 105, 0.15) 0px 2px 5px 0px, rgba(0, 0, 0, 0.05) 0px 1px 1px 0px;
+       padding: 70px 25px;
+       width: 100%;
+       background: var(--primary-color);
+       text-align: center; border-radius: 15px;
+     }
+
+     .month ul {
+       margin: 0;
+       padding: 0;
+     }
+
+     .month ul li {
+       color: white;
+       font-size: 20px;
+       text-transform: uppercase;
+       letter-spacing: 3px;
+     }
+
+     .month .prev {
+       float: left;
+       padding-top: 10px;
+     }
+
+     .month .next {
+       float: right;
+       padding-top: 10px;
+     }
+
+     .weekdays {box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+       border-radius:15px 15px 0px 0px ;
+       margin: 0;
+       padding: 10px 0;
+       background-color: #fff;
+       margin-top: 10px;
+
+     }
+
+     .weekdays li {
+       display: inline-block;
+       width: 13.6%;
+       color:  var(--primary-color);
+       text-align: center;
+     }
+
+     .days { border-radius: 0px 0px 15px 15px;
+       padding: 10px 0;
+       background:  #fff;
+       margin: 0;box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+     }
+
+     .days li {
+       list-style-type: none;
+       display: inline-block;
+       width: 13.6%;
+       text-align: center;
+       margin-bottom: 25px;
+       font-size:12px;
+       color: #777;
+     }
+
+     .days li .active {
+       padding: 0px;
+
+       color:  #777;!important
+     }
+     .notification {
+
+       color: white;
+       text-decoration: none;
+       padding: 10px 10px;
+       position: relative;
+       display: inline-block;
+       border-radius: 2px;
+     }
+
+     .notification:hover {
+       background: var(--primary-color);
+     }
+
+     .notification .badge {
+       font-size: 12px;
+       position: absolute;
+       top:  30px;
+       left:  0px;
+       padding: 1px 10px;
+       border-radius: 50px;
+       background-color: var(--primary-color);
+       color: white;
+     }
+     /* Add media queries for smaller screens */
+     @media screen and (max-width:720px) {
+       .weekdays li, .days li {width: 13.1%;}
+     }
+
+     @media screen and (max-width: 420px) {
+       .weekdays li, .days li {width: 12.5%;}
+       .days li .active {padding: 2px;}
+     }
+
+     @media screen and (max-width: 290px) {
+       .weekdays li, .days li {width: 12.2%;}
+     }
+</style>
+
+ <div class="Calendar" id="CAlendar" style="display: block;">
+ {% load custom_filters %}
+
+ <div class="month">
+   <ul>
+     <li>
+       {{ month_name }}<br>
+       <span style="font-size:18px">{{ year }}</span>
+     </li>
+   </ul>
+ </div>
+
+ <ul class="weekdays">
+   <!-- {% for weekday_name in weekday_names %}
+     <li>{{ weekday_name }}</li>
+   {% endfor %} -->
+ </ul>
+
+ <ul class="days">
+   {% for day in days %}
+     <li{% if day.active_class %} class="{{ day.active_class }}"{% endif %}>
+       {% if day.active_class %}
+         <span style="font-size: 12px; top: 20px; left: 0px; padding: 1px 10px; border-radius: 50px; background-color: #695cfe; color: white;">ok<br></span>
+       {% endif %}
+       {{ day.day }}
+       <div> </div>
+       <span style="font-size: 10px;">{{ day.date }}</span>
+     </li>
+   {% endfor %}
+ </ul>
+</div>
+
+
+
+       <div style="width:90%;  margin:auto; margin-top: 10px;   ">
+
+             <button class="button" onclick="FunctionCalendar()">Calendar</button>
+             <button class="button" onclick="myFunctionadd()">add</button>
+            <button class="button" onclick="myFunctionsearch()">search</button>
+               <button class="button" onclick="myFunctionDelete()">Delete All</button>
+
+            </div>
+
+
+
+           <script>
+            function FunctionCalendar() {
+              var y = document.getElementById("CAlendar");
+              if (y.style.display === "none") {
+                y.style.display = "block";
+              } else {
+                y.style.display = "none";
+              }
+         </script>
+
+          <script>
+            function myFunctionadd() {
+              var x = document.getElementById("add");
+              if (x.style.display === "none") {
+                x.style.display = "block";
+              } else {
+                x.style.display = "none";
+              }
+            } </script>
+
+          <script>
+            function myFunctionsearch() {
+              var z = document.getElementById("search");
+              if (z.style.display === "none") {
+                z.style.display = "block";
+              } else {
+                z.style.display = "none";
+              }
+            }
+
+
+            </script>
+            <script>
+              function myFunctionDelete() {
+                var d = document.getElementById("Delete");
+                if (d.style.display === "none") {
+                  d.style.display = "block";
+                } else {
+                  d.style.display = "none";
+                }
+              }
+
+
+              </script>
+
+
+
+  <style type="text/css">
+     * {
+       box-sizing: border-box;
+     }
+
+     form{padding: 15px;
+      margin-top: 15px;
+      width: 100%;
+     background-color: #fff;
+       border: 1px solid #ccc;
+       border-radius: 8px;
+     }
+
+
+     .form-group {
+       margin-bottom: 10px;
+
+
+     }
+
+     label {
+       display: block;
+       margin-bottom: 5px;
+       font-weight: bold;
+       text-align: center;
+     }
+
+     select,
+     input[type="number"],
+     input[type="time"],
+     input[type="date"]{
+       width: 100%;
+       padding: 10px;
+       border: 1px solid #ccc;
+       border-radius: 5px;
+       font-size: 16px;
+       line-height: 1.5;
+     }
+
+     .form-group-inline {
+       display: inline-block;
+
+
+       width: 24%;
+     }
+
+     .form-group-inline1 {
+       display: inline-block;
+
+
+       width: 32.8%;
+     }
+     .form-group-buttons {
+       display: flex;
+       justify-content: space-between;
+     }
+
+     .submit ,
+     .reset   {
+       width: 48%;
+       padding: 10px;
+       border: none;
+       border-radius: 5px;
+       font-size: 16px;
+       font-weight: bold;
+       color: #fff;
+       background-color:var(--primary-color);
+       cursor: pointer;
+     }
+     .submit:hover ,
+     .reset:hover {
+       background-color: var(--primary-color);
+     }
+      .search{    width: 100%;
+
+       padding: 10px;
+       border: none;
+       border-radius: 5px;
+       font-size: 16px;
+       font-weight: bold;
+       color: #fff;
+       background-color:var(--primary-color);
+       cursor: pointer;
+
+          }
+      .button{
+       padding: 10px;
+       border: none;
+       border-radius: 5px;
+       font-size: 16px;
+       font-weight: bold;
+       color: #fff;
+       background-color:var(--primary-color);
+       cursor: pointer;
+
+          }
+
+
+
+     @media only screen and (max-width: 600px) {
+       .form-group-inline {
+         width: 100%;
+         display: block;
+         margin-right: 0;
+       }
+       .form-group-inline1 {
+         width: 100%;
+         display: block;
+         margin-right: 0;
+       }
+
+
+       .reset  { display: none;
+         width: 100%;
+         margin-top: 10px;
+       }
+
+       .submit {
+         width: 100%;
+         margin-top: 10px;
+       }
+
+
+
+      .search{   width: 100%;margin-top: 10px;  }
+
+
+.button{    width: 100%; margin-top: 10px;   }
+
+
+     }
+      </style>
+ <div>
+
+   <form method="post" id="add" style="display:block;">
+      {% csrf_token %}
+      <div class="form-group form-group-inline">
+          <label for="doctor_id">اختر الطبيب </label>
+          <select id="doctor_id" name="doctor_id" required>
+              {% if doctor %}
+              <option value="{{doctor.id}}">{{doctor.Name}}</option>
+              {% else %}
+              <option value=""> اختر الطبيب</option>
+              {% endif %}
+          </select>
+      </div>
+
+      <div class="form-group form-group-inline">
+          <label for="year">Year </label>
+          <input type="number" id="year" name="year" min="{{current_year}}" max="3000" value="{{ year }}" required>
+      </div>
+
+      <div class="form-group form-group-inline">
+          <label for="start_month">Select a start month </label>
+          <select id="start_month" name="start_month" required>
+              <option value="">Select a start month</option>
+              <option value="1">January</option>
+              <option value="2">February</option>
+              <option value="3">March</option>
+              <option value="4">April</option>
+              <option value="5">May</option>
+              <option value="6">June</option>
+              <option value="7">July</option>
+              <option value="8">August</option>
+              <option value="9">September</option>
+              <option value="10">October</option>
+              <option value="11">November</option>
+              <option value="12">December</option>
+          </select>
+      </div>
+
+      <div class="form-group form-group-inline">
+          <label for="end_month">Select an end month </label>
+          <select id="end_month" name="end_month" required>
+              <option value="">Select an end month</option>
+              <option value="1">January</option>
+              <option value="2">February</option>
+              <option value="3">March</option>
+              <option value="4">April</option>
+              <option value="5">May</option>
+              <option value="6">June</option>
+              <option value="7">July</option>
+              <option value="8">August</option>
+              <option value="9">September</option>
+              <option value="10">October</option>
+              <option value="11">November</option>
+              <option value="12">December</option>
+          </select>
+      </div>
+
+      <br>
+
+      <div class="form-group form-group-inline">
+          <label for="day_of_week">Select a day of the week </label>
+          <select id="day_of_week" name="day_of_week" required>
+              <option value="">Select a day of the week</option>
+              <option value="MON">Monday</option>
+              <option value="TUE">Tuesday</option>
+              <option value="WED">Wednesday</option>
+              <option value="THU">Thursday</option>
+              <option value="FRI">Friday</option>
+              <option value="SAT">Saturday</option>
+              <option value="SUN">Sunday</option>
+          </select>
+      </div>
+
+      <div class="form-group form-group-inline">
+          <label for="start_time">Select a start time </label>
+          <input type="time" id="start_time" name="start_time" required>
+      </div>
+
+      <div class="form-group form-group-inline">
+          <label for="end_time">Select an end time:</label>
+          <input type="time" id="end_time" name="end_time" required>
+      </div>
+
+      <div class="form-group form-group-inline">
+          <label for="second_start_time">Select a second start time </label>
+          <input type="time" id="second_start_time" name="second_start_time">
+      </div>
+
+      <div class="form-group form-group-inline">
+          <label for="second_end_time">Select a second end time:</label>
+          <input type="time" id="second_end_time" name="second_end_time">
+      </div>
+
+      <div class="form-group form-group-buttons">
+          <button type="submit" class="submit" name="DoctorSchedule-form">Add</button>
+          <button type="reset" class="reset">Reset</button>
+      </div>
+  </form>
+
+ </div>
+
+
+
+<style type="text/css">
+.card{
+margin-top: 20px;
+width: 100%;
+height: 3330px;
+}
+
+.card-info{
+width: 100%;
+/*background-color: #fff;*/
+margin: auto;
+padding: 15px;
+margin-top: 15px;
+ display: block;
+/*border: 1px solid #ccc;*/
+border-radius: 8px;
+
+
+}
+
+
+</style>
+
+
+     <style type="text/css">
+
+table {
+
+
+
+
+
+       text-align: center;
+       font-size: 14px;
+       border-radius: 8px;
+       border-collapse: collapse;
+       border-spacing: 0;
+       width: 100%;
+       padding: 5px;
+     /*  border: 1px solid #ddd; */
+
+     margin-bottom : 15px;
+     }
+
+     th, td {
+       text-align: center;
+       padding: 8px;
+     }
+
+     tr  { background-color: #fff;
+
+     }
+
+     </style>
+
+
+
+
+<div class="card ">
+ <form method="post"id="search" style="display: block;">
+
+{% csrf_token %}
+       <div class="form-group form-group-inline1">
+       <label for="doctor_id">اختر الطبيب </label>
+
+       <select id="doctor_id" name="doctor_id">
+
+            {% if doctor %}
+
+           <option value="{{doctor.id}}">{{doctor.Name}}</option>
+           {% else %}
+      <option value=" "> اختر الطبيب</option>
+
+               {% endif %}
+       </select>
+       </div>
+
+
+
+       <div class="form-group form-group-inline1">
+         <label for="start_time">Select a  date </label>
+         <input type="date" name="date" id="date">
+       </div>
+
+       <div class="form-group form-group-inline1">
+          <button type="submit" class="search"name="form2_submit" >search</button>
+       </div>
+
+     </form>
+
+
+
+
+           <form method="post" id="Delete"  style="display: none;">
+            {% csrf_token %}
+               <div class="form-group form-group-inline1">
+            <label for="start_date">Start Date:</label>
+            <input type="date" name="start_date">
+     </div>
+               <div class="form-group form-group-inline1">
+            <label for="end_date">End Date:</label>
+            <input type="date" name="end_date">
+            </div>
+           <div class="form-group form-group-inline1">
+            <input type="submit" class="search" name="Delete_submit" value="Delete"></div>
+          </form>
+
+
+
+
+
+
+
+
+
+
+    <div class="card-info">
+
+
+
+       {% for schedule in my_queryset  %}
+
+    <table >
+      <tr>
+
+
+    <td class="td" style="border-radius: 0px  15px  0px  0px ; " >   <div class="inf-text" style="margin-bottom: 10px;">
+    </div>   </td> <td class="td"style=" border-radius: 15px  0px  0px  0px ; ">
+    <div class="inf-text" style="margin-bottom: 10px;">
+    </div> </td></tr>
+      <tr>
+    <td class="td" style="border-radius: 0px  0px  0px  0px ; border: 1px solid #ddd;" >   <div class="inf-text" style="margin-bottom: 10px;">        date
+    </div>   </td> <td class="td"style=" border-radius: 0px  0px  0px  0px ; border: 1px solid #ddd;">
+    <div class="inf-text" style="margin-bottom: 10px;">      {{ schedule.date }}
+    </div> </td></tr>
+
+
+    <tr><td class="td" style=" border: 1px solid #ddd;"> <div class="inf-text" style="margin-bottom: 10px;"> day
+    </div> </td><td class="td"style=" border: 1px solid #ddd;"> <div class="inf-text" style="margin-bottom: 10px;">     {{ schedule.day_of_week }}
+     </div> </td></tr><tr>
+
+       <tr><td class="td" style=" border: 1px solid #ddd;"> <div class="inf-text" style="margin-bottom: 10px;"> first period start
+       </div> </td><td class="td"style=" border: 1px solid #ddd;"> <div class="inf-text" style="margin-bottom: 10px;">   {{ schedule.first_period_start }}
+        </div> </td></tr><tr>
+
+
+          <tr><td class="td" style=" border: 1px solid #ddd;"> <div class="inf-text" style="margin-bottom: 10px;">  first period end
+          </div> </td><td class="td"style=" border: 1px solid #ddd;"> <div class="inf-text" style="margin-bottom: 10px;">    {{ schedule.first_period_end }}
+           </div> </td></tr><tr>
+
+             <tr><td class="td" style=" border: 1px solid #ddd;"> <div class="inf-text" style="margin-bottom: 10px;"> second period start
+             </div> </td><td class="td"style=" border: 1px solid #ddd;"> <div class="inf-text" style="margin-bottom: 10px;">   {{ schedule.second_period_start }}
+              </div> </td></tr><tr>
+
+                <tr><td class="td" style=" border: 1px solid #ddd;"> <div class="inf-text" style="margin-bottom: 10px;">  second period end
+                </div> </td><td class="td"style=" border: 1px solid #ddd;"> <div class="inf-text" style="margin-bottom: 10px;">   {{ schedule.second_period_end }}
+                 </div> </td></tr><tr>
+
+
+                 <tr><td class="td" style=" border: 1px solid #ddd;"> <div class="inf-text" style="margin-bottom: 10px;"> Edit
+                 </div> </td><td class="td"style=" border: 1px solid #ddd;">
+                 <a href="{% url 'Dashboard:update_schedule' schedule.id %}">
+                   <div class="inf-text" style="margin-bottom: 10px;">
+                 <samp  ><i class="bx bx-edit toggle"  style="padding: 5px;background-color: var(--primary-color);
+                  color: #fff; font-size:25px; border-radius: 5px; box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;"></i>  </samp>
+                  </div> </a></td></tr><tr>
+
+
+
+                 <tr><td class="td" style=" border: 1px solid #ddd;border-radius: 0px  0px  15px  0px ; "> <div class="inf-text" style="margin-bottom: 10px;"> delete
+                 </div> </td>
+                 <td class="td"style=" border: 1px solid #ddd; border-radius: 0px  0px  0px  15px ; ">
+                 <a href="{% url 'Dashboard:delete_schedule' schedule.id %}?doctor_id={{ doctor.id }}" >
+                   <div class="inf-text" style="margin-bottom: 10px;">
+                 <samp>  <i class="bx bx-x-circle toggle"  style=" padding: 5px; background-color: var(--primary-color);color: #fff;font-size:25px;  border-radius: 5px;
+                   box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px; "> </i>   </samp>  </div>  </a></td></tr>
+
+                  </table>
+
+    {% empty %}
+      <p>No schedules found.</p>
+    {% endfor %}
+
+
+
+
+
+
+
+
+
+
+
+           </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ </div>
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+    </section>

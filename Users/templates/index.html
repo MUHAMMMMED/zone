@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{{ user.username }}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+    integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
+    crossorigin="anonymous">
+    <style>
+        /* Style for the update button */
+        .update-btn {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            font-size: 10px;
+            padding: 10px 15px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+
+               border-radius: 5px;
+        }
+
+        .update-btn:hover {
+            background-color: #3e8e41;
+        }
+
+        .update-btn:active {
+            background-color: #2e6735;
+        }
+
+        /* Style for the image gallery */
+        .gallery {
+            margin: 5px;
+            border: 1px solid #ccc;
+            float: left;
+            width: 180px;
+            text-align: center;
+             margin-top:35px;
+
+        }
+
+        .gallery:hover {
+            border: 1px solid #777;
+        }
+
+        .gallery img {
+            width: 100%;
+            height: auto;
+        }
+
+        .gallery .desc {
+            padding: 15px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <br><br><br><br><br>
+    <h3 style="text-align: center;">Hello {{ user.username }}</h3>
+    <br><br><br><br><br>
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 mx-auto">
+                    <div class="card">
+                        <div class="card-header text-black">
+                            <h2>Registration</h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <!-- If user is authenticated -->
+                                {% if user.is_authenticated %}
+                                <div class="col-lg-6">
+                                    <a type="button" class="btn btn-block" href="{% url 'User:employeeRegister' %}">Employee</a>
+                                </div>
+                                <div class="col-lg-6">
+                                    <a type="button" class="btn btn-block" href="{% url 'User:ManagerRegister' %}">Manager</a>
+                                </div>
+                                <div class="col-lg-6">
+                                    <a type="button" class="btn btn-block" href="{% url 'User:password_reset' %}">Password Reset</a>
+                                </div>
+                                <li class="list-group-item">
+                                    <a href="{% url 'User:logout' %}">
+                                        <i class="feather icon-log-out m-r-5"></i>تسجيل خروج
+                                    </a>
+                                </li>
+                                <!-- If user is not authenticated -->
+                                {% else %}
+                                <div class="col-lg-6">
+                                    <a type="button" class="btn btn-block" href="{% url 'User:login' %}">
+                                        <h2>Login</h2>
+                                    </a>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section style ="   width: 90%;     margin:auto;margin-top:50px;"  >
+
+
+      {% if web %}
+          <!-- Loop through the web objects and display their information -->
+          {% for w in web %}
+
+
+
+
+                  <div class="gallery">
+                  {% if w.Title_logo %}
+                    <img src="{{w.Title_logo.url}}" alt="{{ w.Title }}" width="600" height="400">
+                    {% endif %}
+                      <h4>{{ w.Title }}</h4>
+                       <div class="desc">
+                        {% if w.active %}
+                          نشط
+                         {% else %}
+                          <p style="color: red;">غير نشط</p>
+                         {% endif %}
+                        </div>
+                         <p >Slug:{{ w.slug }}</p >
+                              <p >Employee:{{ w.Employee_WEB }}</p >
+                      <div class="desc">
+                        <a href="{% url 'webs:web' w.slug %}">
+                          <button class="update-btn">زيارة الموقع</button>
+                        </a>
+                      </div>
+                      <div class="desc">
+                          <a href="{% url 'Dashboard:update_web_admin' pk=w.pk %}">
+                          <button class="update-btn" style="width: 100%;">تحديث </button>  </a>
+
+                         </div>
+                  </div>
+
+        {% endfor %}
+    {% else %}
+        <p>No web  active .</p>
+    {% endif %}
+
+
+
+    </section>
+
+
+
+
+    <section style ="   width: 90%;     margin:auto;margin-top:50px;"  >
+ <div  style ="   width: 90%;     margin:auto ;" >
+   <h1 style="  text-align: center;">web False  </h1>
+ </div>
+
+
+      {% if web %}
+          <!-- Loop through the web objects and display their information -->
+          {% for w in web_False %}
+
+
+
+        <div class="gallery">
+        {% if w.Title_logo %}
+          <img src="{{w.Title_logo.url}}" alt="{{ w.Title }}" width="600" height="400">
+          {% endif %}
+            <h4>{{ w.Title }}</h4>
+             <div class="desc">
+              {% if w.active %}
+                نشط
+               {% else %}
+                <p style="color: red;">غير نشط</p>
+               {% endif %}
+              </div>
+               <p >Slug:{{ w.slug }}</p >
+     <p >Employee:{{ w.Employee_WEB }}</p >
+
+
+            <div class="desc">
+              <a href="{% url 'webs:web' w.slug %}">
+                <button class="update-btn">زيارة الموقع</button>
+              </a>
+            </div>
+            <div class="desc">
+                <a href="{% url 'Dashboard:update_web_admin' pk=w.pk %}">
+                <button class="update-btn" style="width: 100%;">تحديث </button>  </a>
+
+               </div>
+        </div>
+
+        {% endfor %}
+    {% else %}
+        <p>No web web_False </p>
+    {% endif %}
+
+
+
+    </section>
+
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,252 @@
+
+
+{% extends "BaseGeneric.html" %}
+{% load static %}
+<title>{{web.slug}}  | {{category.Name}}  </title>
+<meta name="keywords" content="{{ category.keywords }} " />
+{% block content %}
+
+
+
+
+   <!-- Google Tag Manager -->
+   <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+   new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+   j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+   'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+ })(window,document,'script','dataLayer','{{web.pixal_id}}');</script>
+   <!-- End Google Tag Manager -->
+
+
+ <div class="topnav" id="myTopnav">
+   {% if web.logo %}
+    <a href="{% url 'webs:web' web.slug %}" class="active"><div class="div-logo" >
+   <img src="{{web.logo.url}}" class="logo-img" alt="{{web}}"> </div> </a>{% endif %}
+    <a href="{% url 'webs:web' web.slug %}">الصفحه الرئيسيه</a>
+    <a href="{% url 'webs:doctor' web_slug=web.slug %}" >الأطباء</a>
+    <a href="{% url 'webs:categories_services'  web.slug   %}">جميع العروض  </a>
+
+
+    {% for category in categories_nav %}
+
+    <a href="{% url 'webs:categories' web.slug category.id %}">   {{category.Name}}      </a>
+  {% endfor %}
+
+
+
+    <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+      <samp class="icon-span">
+      <i class="fa fa-bars"></i>    </samp>
+    </a>
+  </div>
+</header>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+html {
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+.column {
+  float: right;
+  width: 20%;
+  margin-bottom: 16px;
+  padding: 0 8px;
+}
+
+@media screen and (max-width: 650px) {
+  .column {
+    width: 100%;
+    display: block;
+  }
+}
+
+.card {
+text-align: center;
+border-radius:8px;
+border: 1px solid #d1c091;
+}
+
+
+
+.card_img {
+
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 1px solid #d1c091;
+    width: 100%;
+
+
+}
+
+
+
+.Card-div{
+
+ margin-top:15px;
+      width: 70%;
+      margin-left: auto;
+  margin-right: auto;
+
+}
+
+.container {
+  padding: 0 16px;
+}
+
+.container::after, .row::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.title {
+  color: grey;
+  font-size:13px;
+}
+.view_p {
+  color: #d1c091;
+  font-size:10px;
+    margin: 16px;
+}
+.buttondr {
+  border: none;
+  outline: 0;
+  display: inline-block;
+  padding: 5px;
+  color: white;
+  background-color: #d1c091;
+  text-align: center;
+  cursor: pointer;
+  width: 100%;
+    border-radius:50px 50px 0px 0px;
+    font-size:11px;
+}
+
+.view_p:hover {  font-size:12px; }
+
+
+</style>
+
+
+     <!-- Google Tag Manager (noscript) -->
+     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id={{web.pixal_id}}"
+     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+     <!-- End Google Tag Manager (noscript) -->
+
+
+
+
+
+
+
+<div style="width: 95%; margin: auto;">
+
+
+   <h4 style="margin: 25px;"> فريق الأطباء المخلصين لدينا</h4>
+
+<br>
+
+
+
+
+<div class="row">
+  {% if doctors %}
+
+  {% for doctor in doctors %}
+      <div>
+          <h2></h2>
+      </div>
+
+  <div class="column">
+    <div class="card">
+
+        <div class="Card-div">
+
+          {% if  doctor.Image %}
+          <img src="{{doctor.Image.url}}" alt="{{doctor.Name}} " class='card_img'>
+           {% endif %}
+       </div>
+      <div class="container">
+        <h3>{{doctor.Name}} </h3>
+        <p class="title">{{doctor.jobtitle}}</p>
+ <a href="{% url 'webs:doctor_detail' web_slug=doctor.web.slug doctor_id=doctor.id %}" >
+        <!-- <p><button class="buttondr">حجز موعد</button></p> -->
+         <p><button class="buttondr">  عرض المزيد عن خدمات  الطبيب</button></p>
+
+<!-- <p class="view_p">
+
+</p> -->
+
+         </a>
+      </div>
+    </div>
+  </div>
+
+  {% endfor %}
+
+
+
+
+
+  {% else %}
+  {% endif %}
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+
+
+  </div>
+
+
+  {% if web.Whatsapp %}
+  <div class="floating_btn" style=" margin-bottom:50px; right:30px;" id="whatsapp-button">
+  <a target="_blank" href="https://wa.me/{{web.Whatsapp}}  ">
+  <div class="contact_icon"> <i class="fab fa-whatsapp my-float"></i> </div>
+  </a> </div>{% endif %}
+
+
+
+
+
+      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+      <script type="text/javascript">
+        $(document).ready(function() {
+          $('#whatsapp-button').click(function() {
+            $.ajax({
+
+              url: '{% url "webs:increment_click_Doctors_whatsapp" web_slug=web.slug %}',
+              method: 'POST',
+              data: {
+                'csrfmiddlewaretoken': '{{ csrf_token }}',
+              },
+              success: function(response) {
+                // Update the click count on the page
+                $('#click-whatsapp-count').text(response.click_whatsapp);
+              },
+            });
+          });
+        });
+      </script>
+
+
+
+
+
+{% endblock %}

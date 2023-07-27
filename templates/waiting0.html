@@ -1,0 +1,1513 @@
+{% extends "base.html" %}
+
+{% load static%}
+{% load bootstrap4 %}
+{% block content %}
+  <title>{% block title %}{% for weB in weB %}  {{weB.slug}}| {{title}} {% endfor %}{% endblock %}</title>
+<html dir="rtl" lang="ar">
+<link rel="stylesheet" href="{%static 'css/APP.css' %}">
+<!----===== Boxicons CSS ===== -->
+<link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+<section class="home">
+<!-- ----------------------dropdown---------------------------------- -->
+<style media="screen">
+  input[type=number] {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #695cfe;
+      border-radius: 4px;
+      box-sizing: border-box;
+      margin-top: 6px;
+      margin-bottom: 16px;
+      resize: vertical;
+  }
+</style>
+
+
+<div class="dropdown">
+<button onclick="dropbtnFunction()" class="dropbtn">الحجوزات</button>
+<div id="myDropdown" class="dropdown-content">
+<a href="{% url 'Dashboard:Appointment_waiting' %} " ><table style="width: 100%;   ">
+<tr>
+<th style="width: 80%;text-align: right;">   انتظار      </th>
+<td style="width: 20%;">
+ {% if count_waiting %}<samp class="dropdown-badge">{{count_waiting}} </samp> {% endif %}</td>
+</tr></table> </a>
+<a href=" {% url 'Dashboard:Appointment_confirmed' %} " ><table style="width: 100%;"><tr>
+<th style="width: 80%;text-align: right;">        حجز مؤكد   </th>
+<td style="width: 20%;">
+ {% if count_confirmed %}<samp class="dropdown-badge">{{count_confirmed}}</samp> {% endif %}</td>
+</tr></table> </a>
+<a href="{% url 'Dashboard:Appointment_notanswering' %}" ><table style="width: 100%;"><tr>
+<th style="width: 80%;text-align: right;">         عدم الرد </th>
+<td style="width: 20%;">
+ {% if count_notanswering %}<samp class="dropdown-badge">{{count_notanswering}} </samp>{% endif %} </td>
+</tr></table> </a>
+<a href="{% url 'Dashboard:Appointment_inquiries' %}" ><table style="width: 100%;"><tr>
+<th style="width: 80%;text-align: right;">      الاستفسار    </th>
+<td style="width: 20%;">
+ {% if count_inquiries %}<samp class="dropdown-badge">{{count_inquiries}} </samp> {% endif %}</td>
+</tr></table> </a>
+<a href="{% url 'Dashboard:Appointment_visit' %}" ><table style="width: 100%;"><tr>
+<th style="width: 80%;text-align: right;">  حضر   </th>
+<td style="width: 20%;">
+ {% if count_visit %}<samp class="dropdown-badge">{{count_visit}}</samp> {% endif %}</td>
+</tr></table> </a>
+<a href="{% url 'Dashboard:Appointment_cancel' %}" ><table style="width: 100%;"><tr>
+<th style="width: 80%;text-align: right;">     إلغاء الحجز  </th>
+<td style="width: 20%;">
+ {% if count_cancel %}<samp class="dropdown-badge">{{count_cancel}} </samp> {% endif %}</td>
+</tr></table> </a>
+<a href="{% url 'Dashboard:appointments_1_hours_ago' %}" >
+    <table style="width: 100%;"><tr>
+<th style="width: 80%;text-align: right;">   قبل ساعة </th>
+<td style="width: 20%;">
+ {% if count_1_hours_ago %}<samp class="dropdown-badge">{{count_1_hours_ago}}  </samp> {% endif %}</td>
+</tr></table> </a>
+<a href="{% url 'Dashboard:appointments_3_hours_ago' %}"  >
+    <table style="width: 100%;"><tr>
+<th style="width: 80%;text-align: right;">   قبل 3 ساعات</th>
+<td style="width: 20%;">
+   {% if count_3_hours_ago %} <samp class="dropdown-badge">{{count_3_hours_ago}} </samp>{% endif %} </td>
+</tr></table> </a>
+<a href="{% url 'Dashboard:visitstoday' %}"  >
+    <table style="width: 100%;"><tr>
+<th style="width: 80%;text-align: right;">   الزيارات اليومية </th>
+<td style="width: 20%;">
+ {% if count_visitstoday %}<samp class="dropdown-badge">{{count_visitstoday}} </samp> {% endif %}</td>
+</tr></table> </a>
+<a href="{% url 'Dashboard:appointments_later' %}" >
+    <table style="width: 100%;"><tr>
+<th style="width: 80%;text-align: right;">  تجاوز الموعد </th>
+<td style="width: 20%;">
+ {% if count_appointments_later %}<samp class="dropdown-badge"> {{count_appointments_later}} </samp> {% endif %}</td>
+</tr></table> </a>
+<a href="{% url 'Dashboard:missedreservation' %}"  >
+    <table style="width: 100%;"><tr>
+<th style="width: 80%;text-align: right;">   حجز فائت </th>
+<td style="width: 20%;">
+ {% if count_missed_appointments %}<samp class="dropdown-badge">{{count_missed_appointments}} </samp> {% endif %}</td>
+</tr></table> </a>
+
+</div></div>
+
+              <!-- ----------------------  end---------------------------------- -->
+
+<div id="mySidenav" class="sidenav">
+<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+ <div  style ="width: 80%; margin:auto;">
+<style media="screen">
+.btn_submit {background-color: var(--primary-color);  color: white;  padding: 10px 20px;  border: none;border-radius: 5px;cursor: pointer;  width: 100%;}
+</style>
+<form method="get">
+{% csrf_token %}
+{% bootstrap_form Bookingfilter.form %}
+{% buttons %}<button class="btn_submit" type="submit">بحث</button>{% endbuttons %}</form>
+
+
+
+
+
+</div> </div>
+
+
+
+
+
+
+
+          <style>
+
+
+          /* The Modal (background) */
+          .modalVisit {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            padding-top: 100px; /* Location of the box */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+          }
+
+          /* Modal Content */
+          .modal-contentVisit {
+          background-color:#eeeeee;
+          margin: auto;
+          border: 1px solid #888;
+          width: 80%;
+          height: 500px;
+          border-radius: 8px;
+          }
+
+          /* The Close Button */
+          .closeVisit {
+          color: #aaaaaa;
+          float: right;
+          font-size: 28px;
+          font-weight: bold;
+          margin-right: 10px;
+          }
+
+          .closeVisit:hover,
+          .closeVisit:focus {
+          color: #000;
+          text-decoration: none;
+          cursor: pointer;
+          }
+
+
+          .Visit_card{
+          width: 100%;
+          background-color:#eeeeee;
+          height: auto;
+          position: relative;
+          float: right;
+          border-radius: 0px  0px 8px  8px ;
+          padding-bottom:20px;
+                }
+
+          .Visit_card_head{
+          border-radius: 8px;
+          width: 95%;
+          margin: auto;
+          box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+
+          }
+          .Visit_card_head_text
+          {
+          text-align: center;
+          width: 100%;
+          padding: 1px;
+          background: #fff;
+
+          }
+          .Visit_content{
+          width: 95%;
+          margin: auto;
+          height: auto;
+          margin-top: 13px;
+
+          }
+
+          .Visit_content_card{
+          position: relative;
+          float: right;
+          width:18.9%;
+          margin: 5px;
+          height: auto;
+          border-radius: 8px ;
+          box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+          }
+
+          @media screen and (max-width: 600px){
+
+          .Visit_content_card{
+            position: relative;
+            float: right;
+            width:95%;
+            margin: 5px;
+            height: auto;
+            border-radius: 8px ;
+            box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+          }
+
+
+
+          }
+
+
+
+
+
+
+
+
+
+
+
+
+          </style>
+
+
+
+
+
+
+          <!-- The Modal -->
+          <div id="myModalVisit" class="modalVisit">
+
+            <!-- Modal content -->
+            <div class="modal-contentVisit">
+              <span class="closeVisit">&times;</span>
+
+              <style type="text/css">
+
+
+              </style>
+
+          <div class="Visit_card">
+
+
+          <div class="Visit_card_head">
+          <div class="Visit_card_head_text" style="color: #37474f;font-weight: 600; padding-top:20px; font-size: 25px;"> {{count_visitstoday}} </div><div class="Visit_card_head_text"> <h3> اجمالى  زيارات اليوم      <!-- Use the Iconify icon -->
+          <span class="iconify" data-icon="bx:user-pin"></span> </h3>
+
+
+           </div>
+          <div class="Visit_card_head_text" style=" background-color:  #695cfe;border-radius:0px 0px 8px 8px ; height:25px;"></div> </div>
+
+
+          <div class="Visit_content">
+          <div style="height:500px; overflow: auto;">
+            <!-- Content goes here -->
+
+
+
+
+                    {% for category in department_appointment_counts %}
+
+
+                  <div class="Visit_content_card">
+                  <div class="Visit_card_head_text" style="color: var(--primary-color); font-weight: 600; padding-top:20px; font-size: 25px;"> {{ category.count }}
+                  <span class="iconify" data-icon="bx:group"></span>
+                   </div>
+                   <div class="Visit_card_head_text"> <h5>اجمالى زيارات اليوم
+                  </h5> </div>
+                   <div class="Visit_card_head_text" style=" background-color:var(--primary-color);border-radius:0px 0px 8px 8px ;  color: #fff;padding-top:5px; height: 40px; ">
+
+
+
+                  {{ category.service__category_id__Name }}
+                  <!-- Use the Iconify icon -->
+                  <span class="iconify" data-icon="bx:pie-chart-alt"></span> </div>
+                  </div>
+
+                  {% empty %}
+                      <li>No call centers found in the given date range.</li>
+                  {% endfor %}
+
+
+
+
+
+
+
+
+
+          </div>
+          </div>
+          </div>
+
+
+
+
+            </div>
+
+          </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div  class="page">
+  <div class="dask"  >
+  <div class="tab">
+  <style media="screen">
+  .notif{ background-color: var(--primary-color);margin-right: 5px;  color: #fff;border-radius: 50px;font-size:10px;   padding:2px 6px 2px 6px  ;}
+  </style>
+  <a href="{% url 'Dashboard:Appointment_waiting' %} " >
+  <button class="tablinks" >   انتظار</button> </a>
+  <a href="{% url 'Dashboard:Appointment_notanswering' %} " >
+  <button class="tablinks"  > عدم الرد</button> </a>
+  <a href="{% url 'Dashboard:visitstoday' %}" >
+  <button class="tablinks"   >  الزيارات اليومية</button> </a>
+  <a href="{% url 'Dashboard:appointments_3_hours_ago' %}" >
+  <button class="tablinks"   >  قبل 3 ساعات </button> </a>
+  <a href="{% url 'Dashboard:appointments_1_hours_ago' %}" >
+  <button class="tablinks"   > قبل ساعة </button> </a>
+  <a href="{% url 'Dashboard:appointments_later' %}" >
+  <button class="tablinks"   >  تجاوز الموعد </button> </a>
+  </div>
+
+<div style="width: 100% ;   float: right; ">
+<div style="width:50%;  float: right; ">
+<h3 style="text-align: right;">
+<ul class="breadcrumb">
+<li style="color: var(--text-color);">  الحجوزات </li>
+<li style="color: var(--text-color);">         {{title}}
+        {% if count_waiting %}<samp class="dropdown-badge">{{count_waiting}} </samp> {% endif %}
+        {% if count_notanswering %}<samp class="dropdown-badge">{{count_notanswering}} </samp>{% endif %}
+        {% if count_confirmed %}<samp class="dropdown-badge">{{count_confirmed}}</samp> {% endif %}
+        {% if count_inquiries %}<samp class="dropdown-badge">{{count_inquiries}} </samp> {% endif %}
+        {% if count_visit %}<samp class="dropdown-badge">{{count_visit}}</samp> {% endif %}
+        {% if count_visitstoday %}<samp class="notif" >  {{count_visitstoday}}</samp>{% endif %}
+        {% if count_3_hours_ago %}  <samp class="notif" >  {{count_3_hours_ago}} </samp>{% endif %}
+        {% if count_1_hours_ago %}  <samp class="notif" >  {{count_1_hours_ago}} </samp>{% endif %}
+        {% if count_appointments_later %}<samp class="notif" >  {{count_appointments_later}} </samp>{% endif %}
+        {% if count_missed_appointments %}<samp class="dropdown-badge">{{count_missed_appointments}} </samp> {% endif %}
+ {% if count_cancel %}<samp class="dropdown-badge">{{count_cancel}} </samp> {% endif %}</li>
+</ul></h3> </div>
+
+
+
+
+<div style="width:50%; float: right;  ">
+<div style="width:110px; float: left; padding-top: 15px;margin-left: 8px;    ">
+<button class="btn info" onclick="openNav()" > بحث </button>
+
+</div>
+
+<div style="width:110px; float: left; padding-top: 15px;margin-left: 8px;    ">
+
+  <a href="{% url 'Dashboard:NEW_appointment'  %}?" >
+
+<button class="btn info"  > اضافه</button></a>
+</div>
+
+
+<div style="width:110px; float: left; padding-top: 15px;margin-left: 8px;    ">
+
+  <button  id="myBtnVisit"  class="btn info"  > زيارات الاقسام</button>
+
+</div>
+
+
+
+<!-- Trigger/Open The Modal -->
+
+</div></div> <br>
+<div style="overflow-x:auto;   padding: 15px;border-radius: 10px; padding-bottom: 300px; ">
+<table class="tablecard" >
+ <tr style=" margin : 15px; ">
+ <th style="border-radius: 0px 20px 0px 0px;color:var(--primary-color);background-color: #fff;padding: 10px;">  تاريخ الإنشاء</th>
+ <th style="color:var(--primary-color);background-color: #fff;padding: 10px;"> الاسم</th>
+<th style="color:var(--primary-color);background-color: #fff;padding: 10px;"> رقم الجوال </th>
+<th style="color:var(--primary-color);background-color: #fff;padding: 10px;"> كيف عرفتنا </th>
+<th style="color:var(--primary-color);background-color: #fff;padding: 10px;">   حالة العميل   </th>
+<th style="color:var(--primary-color);background-color: #fff;padding: 10px;">    الوقت </th>
+<th style="color:var(--primary-color);background-color: #fff;padding: 10px;"> حاله الحجز</th>
+<th style="border-radius:20px  0px 0px 0px;color:var(--primary-color); background-color: #fff; padding: 10px;">عرض التذكره</th>
+</tr>
+{% for data in Bookingfilter.qs   %}
+<tr>
+<td class="tdcard">{{ data.created_at|timesince}}</td>
+<td class="tdcard" > {{ data.name }}</td>
+<td class="tdcard" > {{ data.phone }}</td>
+<td class="tdcard" >{{ data.get_knew_from_display }}</td>
+<td class="tdcard" > {{ data.ClientStatus }}</td>
+<td class="tdcard" > {{ data.time }}</td>
+
+<td class="tdcard">
+<div class="dropdown">
+<samp onclick="toggleDropdown('{{data.id}}')">
+<i class="bx bx-toggle-left toggle" id="spoticoncard"></i>
+</samp>
+<div id="dropdown-{{data.id}}" class="dropdown-conten">
+<script type="text/javascript">
+        function toggleDropdown(id) {
+          var dropdown = document.getElementById("dropdown-" + id);
+          if (dropdown.style.display === "none") {
+            dropdown.style.display = "block";
+          } else {
+            dropdown.style.display = "none";
+          }
+        }
+        </script>
+  <form  method="POST" class="update-appointment-form"  >
+  {% csrf_token %}
+  <div class="stutscard">
+    <table style="float: right; width:100%; position: relative;">
+      <tr style="float: right; width: 100%;">
+        <th style="width: 70%;">تاكيد الحجز</th>
+        <th style="width: 30%;">
+          <label class="switch">
+            <input type="checkbox" class="status-checkbox" data-appointment-id="{{data.id}}" data-status="confirmed"  >
+            <span class="slider round"></span>
+          </label>
+        </th>
+      </tr>
+    </table>
+  </div>
+  <div class="stutscard">
+    <table style="float: right; width:100%;">
+      <tr style="float: right; width: 100%;">
+        <th style="width: 70%;">استفسار</th>
+        <th style="width: 30%;">
+          <label class="switch">
+            <input type="checkbox" class="status-checkbox" data-appointment-id="{{data.id }}" data-status="inquiries">
+            <span class="slider round"></span>
+          </label>
+        </th>
+      </tr>
+    </table>
+  </div>
+  <div class="stutscard">
+    <table style="float: right; width:100%;">
+      <tr style="float: right; width: 100%;">
+        <th style="width: 70%;">عدم الرد</th>
+        <th style="width: 30%;">
+          <label class="switch">
+            <input type="checkbox" class="status-checkbox" data-appointment-id="{{ data.id }}" data-status="notanswering">
+            <span class="slider round"></span>
+          </label>
+        </th>
+      </tr>
+    </table>
+  </div>
+
+  <div class="stutscard">
+    <table style="float: right; width:100%; position: relative;">
+      <tr style="float: right; width: 100%;">
+        <th style="width: 70%;"> حضر</th>
+        <th style="width: 30%;">
+          <label class="switch">
+            <input type="checkbox" class="status-checkbox" data-appointment-id="{{data.id}}" data-status="visit"  >
+            <span class="slider round"></span>
+          </label>
+        </th>
+      </tr>
+    </table>
+  </div>
+
+  <div class="stutscard">
+    <table style="float: right; width:100%;">
+      <tr style="float: right; width: 100%;">
+        <th style="width: 70%;">إلغاء</th>
+        <th style="width: 30%;">
+          <label class="switch">
+            <input type="checkbox" class="status-checkbox" data-appointment-id="{{ data.id }}" data-status="cancel">
+            <span class="slider round"></span>
+          </label>
+        </th>
+      </tr>
+    </table>
+  </div>
+<button class="button">اغلاق </button>
+</form>
+</div> </div></td>
+<td class="tdcard"><samp onclick="document.getElementById('{{data.id}}').style.display='block'" >
+<script>
+             // Get the modal
+
+             function function_tk_dask() {
+               var x = document.getElementById("{{data.id}}");
+               if (x.style.display === "none") {
+                 x.style.display = "block";
+               } else {
+                 x.style.display = "none";
+               }
+             }
+             </script>
+  <i class="bx bx-detail toggle"  id="spoticoncard"  ></i></samp>
+
+       <!-- ----------------------  start tk--------------------------------- -->
+      <div class="dask" ><div id="{{data.id}}" class="modal"><div  class="modal-content animate"> <div>
+      <div  class="modal-content-tk ">
+      <div class="inf-text" style=" font-size: 12px; width: 100%;  ">
+      <table style=" font-size: 12px; width: 100%; border-bottom:2px solid var(--primary-color); padding-bottom: 3px; ">
+      <tr class="tr" style=" font-size: 13px; width: 100%; ">
+      <th class="th"  style=" width: 30%; font-size: 15px;  ">
+      <samp style="padding-left: 8px;color: var(--primary-color);">     بيانات الحجز  </samp> <br>
+      </th> <th class="th"  style=" width: 30%;  ">  حاله الحجز :
+      <samp style=" background-color: var(--primary-color); padding:0px 8px 0px 8px  ; color: #fff;  font-size:13px; border-radius: 8px; ">
+        {% if data.status_appointment == 'انتظار' %}
+                       انتظار
+            {% elif data.status_appointment == 'notanswering' %}
+                       عدم الرد
+            {% elif data.status_appointment == 'confirmed' %}
+                       مؤكد
+            {% elif data.status_appointment == 'inquiries' %}
+                       الاستفسار
+            {% elif data.status_appointment == 'visit' %}
+                         حضر
+            {% elif data.status_appointment == 'cancel ' %}
+                               إلغاء
+            {% elif data.status_appointment == 'missed_reservation ' %}
+                                 فائت
+            {% endif %} </samp> </th>
+      </tr></table></div>
+      <div class="inf">
+      <table class="table">
+        <tr class="tr">
+        <th class="th"><li>    تاريخ الإنشاء  </li> </th>
+        <td class="td">{{ data.created_at }}</td>
+        </tr>
+      <tr class="tr">
+      <th class="th"><li>  الاسم  </li> </th>
+      <td class="td">{{data.name}}</td>
+      </tr>
+
+      <tr class="tr">
+      <th  class="th"><li>  رقم الجوال    </li> </th>
+      <td class="td">{{ data.phone }}</td>
+      </tr>
+
+
+
+      </table>
+      </div>
+      <!--  -->
+      <div class="inf">
+      <table class="table">
+
+
+        <tr class="tr">
+        <th class="th"><li>   القسم </li> </th>
+        <td class="td">{{ data.category_id}}</td>
+
+        </tr>
+        <tr class="tr">
+        <th class="th"><li>حالة العميل  </li> </th>
+        <td class="td">{{data.ClientStatus}}</td>
+        </tr>
+        <tr class="tr">
+        <th  class="th"> <li>  كيف عرفتنا   </li> </th>
+        <td class="td">{{ data.get_knew_from_display }}</td>
+        </tr>
+
+
+
+
+      </table>
+      </div>
+      <!--  -->
+      <div class="inf">
+      <table class="table">
+
+
+        <tr class="tr">
+        <th class="th"><li>   الدكتور </li> </th>
+        <td class="td">{{data.doctor_id.Name}}</td>
+        </tr>
+
+
+        <tr class="tr">
+          <th class="th">
+            <li>التاريخ</li>
+          </th>
+          {% if data.date %}
+            <td class="td" style="text-align: right;">{{ data.date|date:"Y-m-d" }}</td>
+          {% else %}
+            <td class="td" style="text-align: right;">لا يوجد تاريخ</td>
+          {% endif %}
+        </tr>
+
+        <tr class="tr">
+          <th class="th">
+            <li>الوقت</li>
+          </th>
+          {% if data.time %}
+            <td class="td" style="text-align: right;">{{ data.time }}</td>
+          {% else %}
+            <td class="td" style="text-align: right;">    لا يوجد وقت  </td>
+          {% endif %}
+        </tr>
+
+      </table>
+      </div>
+
+
+
+      <div class="inf-text"> <samp style="padding-left: 8px;color: var(--primary-color);">  العروض :</samp> <br>  </div>
+      <div style="width: 98%;margin:auto; ">
+
+
+           <div style="  border: 2px solid var(--primary-color); border-radius: 8px;  padding: 20px; margin: 3px;  float: right; " >
+            <samp style="padding-left: 8px;"> {{ data.serviceName}}</samp><br>
+
+                 <samp class='buttonoffersamp2'  style="
+                     font-size:13px;
+                   ">
+           <samp>  {{ data.price}}</samp>  <samp>{{web.currencyـname}} </samp>
+
+           </samp>
+              </div>
+
+        </div>
+
+
+              <div class="inf-text" > <samp style="padding-left: 8px;color: var(--primary-color); ">  ملاحظات :  </samp> <br>  </div>
+              <div class="inf-text" style=" font-size: 12px;">
+              <table  >
+              <tr class="tr" style="">
+              <th class="th"  style="width: 130px; ">  <samp style="padding-left: 8px;color: var(--primary-color);  "> <li style="height: 0px;">  ملاحظة المريض    </li> </samp> </th><br>
+              <td class="td"style="width: 85%; ">   {{ data.note}}   </td>
+              </tr>
+              </table>
+              </div>
+              <!--  -->
+              <div class="inf "style="width: 100%;  ">
+               <table style="width: 100%; border-bottom:2px solid var(--primary-color); padding-bottom: 8px; ">
+
+            </table>
+              <table><br><tr>
+              <td class="td"  >
+              <div class="inf-text">
+              <td class="td" style="float: left;">
+
+                <div class="inf-text">
+        <a href="{% url 'Dashboard:update_appointment' id=data.id %}">
+               <button type="button"  class="btn info">تحديث</button></a>
+
+            <button class="btn info" style="  background-color:red;color: #fff;  border-color: red;" onclick="document.getElementById('{{data.id}}').style.display='none'"> إلغاء</button> </div>
+
+
+         </td></tr>  </table></div></td> </tr>
+          {% empty %}
+         <h2  style ="text-align:center; padding-top:50px; color: var(--primary-color);">
+        لا توجد مواعيد متاحة</h2>
+          {% endfor %}<!---    -->
+<th style="background-color: #fff;border-radius: 0px 0px  20px  0px; "></th>
+<th style="padding: 20px; background-color: #fff;"></th>
+<th style="padding: 20px; background-color: #fff;"></th>
+<th style="padding: 20px; background-color: #fff;"></th>
+<th style="padding: 20px; background-color: #fff;"></th>
+
+<th style="padding: 20px; background-color: #fff;"></th>
+
+<th style="padding: 20px; background-color: #fff;"></th>
+<th style="background-color: #fff;border-radius:  0px 0px  0px  20px; "></th></table></div>
+
+</div>
+
+      <!-- end  tk-->
+<div class="mobil">
+<div style="width: 100% ;   float: right; ">
+
+      <div style="width:100%;  float: right; ">
+      <h3 style="text-align: right;">
+      <ul class="breadcrumb">
+       <li style="color: var(--text-color);">  الحجوزات </li>
+      <li style="color: var(--text-color);">         {{title}}
+              {% if count_waiting %}<samp class="dropdown-badge">{{count_waiting}} </samp> {% endif %}
+              {% if count_notanswering %}<samp class="dropdown-badge">{{count_notanswering}} </samp>{% endif %}
+              {% if count_confirmed %}<samp class="dropdown-badge">{{count_confirmed}}</samp> {% endif %}
+              {% if count_inquiries %}<samp class="dropdown-badge">{{count_inquiries}} </samp> {% endif %}
+              {% if count_visit %}<samp class="dropdown-badge">{{count_visit}}</samp> {% endif %}
+              {% if count_visitstoday %}<samp class="notif" >  {{count_visitstoday}}</samp>{% endif %}
+              {% if count_3_hours_ago %}  <samp class="notif" >  {{count_3_hours_ago}} </samp>{% endif %}
+              {% if count_1_hours_ago %}  <samp class="notif" >  {{count_1_hours_ago}} </samp>{% endif %}
+              {% if count_appointments_later %}<samp class="notif" >  {{count_appointments_later}} </samp>{% endif %}
+              {% if count_missed_appointments %}<samp class="dropdown-badge">{{count_missed_appointments}} </samp> {% endif %}
+       {% if count_cancel %}<samp class="dropdown-badge">{{count_cancel}} </samp> {% endif %}</li>
+      </ul></h3> </div>
+      <div style="width:100%;   position: relative; float: right;">
+      <div style="width:40%;  padding-top: 15px; margin-right: 20px;   ;position: relative; float: right;  ">
+      <button class="btn info" onclick="openNav()"style="border: 2px solid black;  padding: 5px 25px;font-size: 13px; border-color: var(--primary-color);  margin-left: 5px;"> بحث </button>
+ </div></div></div>
+<div class="scroller"><div style="  overflow-x:auto;padding: 15px;  border-radius: 10px; padding-bottom: 300px;  ">
+ {% for data in Bookingfilter.qs   %}
+ <table class="tablecard"  style="margin-top: 15px; text-align: center; border: 0px solid #ccc; ">
+   <tr class="tr" style=" border: 0px solid #ccc;">
+<th style="
+       border-radius: 0px 20px 0px 0px;text-align: center;color:var(--primary-color);border : 0px solid #ccc;text-align: right;border-left:   1px solid #ccc;background-color: #fff; padding: 10px; padding-right: 15px;">         تاريخ الإنشاء
+</th>
+<td class="tdcard"style="  border : 0px solid #ccc;  border-radius: 20px 0px 0px 0px;color:#000;background-color: #fff;padding: 10px;"> {{ data.created_at|timesince}}</td>  </tr>
+<tr class="tr">
+<th style="color:var(--primary-color);text-align: center;border : 1px solid #ccc;text-align: right;   background-color: #fff;padding: 10px;    padding-right: 15px;">  الاسم  </th>
+<td class="tdcard"style="  border : 1px solid #ccc;border-radius: 0px 0px 0px 0px;background-color: #fff;color:#000;  padding: 10px;" >{{ data.name }}</td></tr>
+<tr class="tr">
+<th style="   color:var(--primary-color);text-align: center;border : 1px solid #ccc; text-align: right; background-color: #fff; padding: 10px;  padding-right: 15px; ">  رقم الجوال  </th>
+<td class="tdcard"style="  border : 1px solid #ccc;border-radius: 0px 0px 0px 0px;  color:#000;background-color: #fff;padding: 10px;" >  {{ data.phone }}  </td>  </tr>
+<tr class="tr">
+<th style="color:var(--primary-color);text-align: center;  border : 1px solid #ccc;  text-align: right;background-color: #fff; padding: 10px;  padding-right: 15px;   "> كيف عرفتنا  </th>
+<td class="tdcard"style="  border : 1px solid #ccc;  border-radius: 0px 0px 0px 0px;  color:#000;background-color: #fff;    padding: 10px;    " >    {{ data.knew_from }}  </td>  </tr>
+<tr class="tr">
+<th style="   color:var(--primary-color);text-align: center;border : 1px solid #ccc; text-align: right; background-color: #fff; padding: 10px;  padding-right: 15px; ">   حالة العميل </th>
+<td class="tdcard"style="  border : 1px solid #ccc;border-radius: 0px 0px 0px 0px;  color:#000;background-color: #fff;padding: 10px;" >  {{ data.ClientStatus }}  </td>  </tr>
+
+
+
+<tr class="tr">
+<th style="   color:var(--primary-color);text-align: center;border : 1px solid #ccc; text-align: right; background-color: #fff; padding: 10px;  padding-right: 15px; ">      التاريخ </th>
+  {% if data.date %}
+<td class="tdcard"style="  border : 1px solid #ccc;border-radius: 0px 0px 0px 0px;  color:#000;background-color: #fff;padding: 10px;" >  {{ data.date}}  </td>  </tr>
+  {% else %}
+  <td class="tdcard"style="  border : 1px solid #ccc;border-radius: 0px 0px 0px 0px;  color:#000;background-color: #fff;padding: 10px;" >    لا يوجد تاريخ </td>  </tr>
+
+  {% endif %}
+
+<tr class="tr">
+<th style="   color:var(--primary-color);text-align: center;border : 1px solid #ccc; text-align: right; background-color: #fff; padding: 10px;  padding-right: 15px; ">      الوقت </th>
+  {% if data.time %}
+<td class="tdcard"style="  border : 1px solid #ccc;border-radius: 0px 0px 0px 0px;  color:#000;background-color: #fff;padding: 10px;" >  {{ data.time  }}  </td>  </tr>
+  {% else %}
+<td class="tdcard"style="  border : 1px solid #ccc;border-radius: 0px 0px 0px 0px;  color:#000;background-color: #fff;padding: 10px;" >    لا يوجد وقت    </td>  </tr>
+  {% endif %}
+
+
+
+<tr class="tr">  <th style="  color:var(--primary-color);text-align: center;  background-color: #fff;  padding: 10px;  border : 1px solid #ccc;padding-right: 15px;  text-align: right;  "> حاله الحجز</th>
+ <td class="tdcard">
+                <div class="dropdown">
+                  <samp onclick="ToggleDropdown('{{data.id}}')">
+                    <i class="bx bx-toggle-left toggle" id="spoticoncard"></i>
+                  </samp>
+                  <div id="Dropdown-{{data.id}}" class="dropdown-conten0">
+
+
+              <script type="text/javascript">
+              function ToggleDropdown(id) {
+                var dropdown = document.getElementById("Dropdown-" + id);
+                if (dropdown.style.display === "none") {
+                  dropdown.style.display = "block";
+                } else {
+                  dropdown.style.display = "none";
+                }
+              }
+              </script>
+    <form  method="POST" class="update-appointment-form"  >
+
+        {% csrf_token %}
+        <div class="stutscard">
+          <table style="float: right; width:100%; position: relative;">
+            <tr style="float: right; width: 100%;">
+              <th style="width: 70%;">تاكيد الحجز</th>
+              <th style="width: 30%;">
+                <label class="switch">
+                  <input type="checkbox" class="status-checkbox" data-appointment-id="{{data.id}}" data-status="confirmed"  >
+                  <span class="slider round"></span>
+                </label>
+              </th>
+            </tr>
+          </table>
+        </div>
+        <div class="stutscard">
+          <table style="float: right; width:100%;">
+            <tr style="float: right; width: 100%;">
+              <th style="width: 70%;">استفسار</th>
+              <th style="width: 30%;">
+                <label class="switch">
+                  <input type="checkbox" class="status-checkbox" data-appointment-id="{{data.id }}" data-status="inquiries">
+                  <span class="slider round"></span>
+                </label>
+              </th>
+            </tr>
+          </table>
+        </div>
+        <div class="stutscard">
+          <table style="float: right; width:100%;">
+            <tr style="float: right; width: 100%;">
+              <th style="width: 70%;">عدم الرد</th>
+              <th style="width: 30%;">
+                <label class="switch">
+                  <input type="checkbox" class="status-checkbox" data-appointment-id="{{ data.id }}" data-status="notanswering">
+                  <span class="slider round"></span>
+                </label>
+              </th>
+            </tr>
+          </table>
+        </div>
+        <div class="stutscard">
+          <table style="float: right; width:100%; position: relative;">
+            <tr style="float: right; width: 100%;">
+              <th style="width: 70%;"> حضر</th>
+              <th style="width: 30%;">
+                <label class="switch">
+                  <input type="checkbox" class="status-checkbox" data-appointment-id="{{data.id}}" data-status="visit"  >
+                  <span class="slider round"></span>
+                </label>
+              </th>
+            </tr>
+          </table>
+        </div>
+
+
+        <div class="stutscard">
+          <table style="float: right; width:100%;">
+            <tr style="float: right; width: 100%;">
+              <th style="width: 70%;">إلغاء</th>
+              <th style="width: 30%;">
+                <label class="switch">
+                  <input type="checkbox" class="status-checkbox" data-appointment-id="{{ data.id }}" data-status="cancel">
+                  <span class="slider round"></span>
+                </label>
+              </th>
+            </tr>
+          </table>
+        </div>
+
+
+
+<button class="button">اغلاق </button>
+      </form>
+  </div> </div></td>
+ </tr>
+ <tr class="tr">
+  <th style="       border-radius:0px  0px 20px 0px;text-align: center;       color:var(--primary-color);  padding: 10px; background-color: #fff;      border : 0px solid #ccc;      border-bottom: 0px solid #ccc;  border-left:   1px solid #ccc;  text-align: right;      padding-right: 15px;      ">عرض التذكره</th>
+  <td class="tdcard" style="border-radius: 0px 0px 0px 20px;border : 0px solid #ccc;">
+        <samp onclick="MOBIL('{{data.id}}')"  >
+      <i class="bx bx-detail toggle"  id="spoticoncard"  ></i></samp>
+
+                   <script type="text/javascript">
+                   function MOBIL(id) {
+                     var dropdown = document.getElementById("tkmobil-" + id);
+                     if (dropdown.style.display === "none") {
+                       dropdown.style.display = "block";
+                     } else {
+                       dropdown.style.display = "none";
+                     }
+                   }
+                   </script>
+
+
+
+<div class="mobil">
+<div id="tkmobil-{{data.id}}" class="modal" >
+<div  class="modal-content animate"> <div>
+<div  class="modal-content-tk ">
+<div class="inf-text"> <samp style="padding-left: 8px;color: var(--primary-color);">   بيانات الحجز  </samp> <br>  </div>
+
+
+     <div class="inf">
+      <table class="table">
+
+                <tr class="tr">
+                <th class="th"> <li>حاله الحجز       </li></th>
+                  <td class="td" style="text-align: right;">      {% if data.status_appointment == 'انتظار' %}
+                                   انتظار
+                        {% elif data.status_appointment == 'notanswering' %}
+                                   عدم الرد
+                        {% elif data.status_appointment == 'confirmed' %}
+                                   مؤكد
+                        {% elif data.status_appointment == 'inquiries' %}
+                                   الاستفسار
+                        {% elif data.status_appointment == 'visit' %}
+                                     حضر
+                        {% elif data.status_appointment == 'cancel ' %}
+                                           إلغاء
+                        {% elif data.status_appointment == 'missed_reservation ' %}
+                                             فائت
+                        {% endif %}</td>
+                </tr>
+
+
+
+      <tr class="tr">
+      <th class="th"> <li>تاريخ الإنشاء   </li></th>
+        <td class="td" style="text-align: right;">{{ data.created_at|timesince}}</td>
+      </tr>
+      <tr class="tr">
+      <th  class="th"><li>   الاسم</li> </th>
+        <td class="td" style="text-align: right;">  {{data.name}}</td>
+      </tr>
+      <tr class="tr">
+      <th  class="th"><li>   رقم الجوال   </li></th>
+        <td class="td" style="text-align: right;"> {{ data.phone }}</td>
+      </tr>
+
+      <tr class="tr">
+      <th  class="th"><li>    حالة العميل     </li></th>
+        <td class="td" style="text-align: right;"> {{ data.ClientStatus }}</td>
+      </tr>
+
+      <tr class="tr">
+      <th  class="th"><li>  كيف عرفتنا   </li> </th>
+        <td class="td" style="text-align: right;">{{ data.get_knew_from_display }}</td>
+      </tr>
+
+      <tr class="tr">
+        <th class="th">
+          <li>التاريخ</li>
+        </th>
+        {% if data.date %}
+          <td class="td" style="text-align: right;">{{ data.date|date:"Y-m-d" }}</td>
+        {% else %}
+          <td class="td" style="text-align: right;">لا يوجد تاريخ</td>
+        {% endif %}
+      </tr>
+
+      <tr class="tr">
+        <th class="th">
+          <li>الوقت</li>
+        </th>
+        {% if data.time %}
+          <td class="td" style="text-align: right;">{{ data.time }}</td>
+        {% else %}
+          <td class="td" style="text-align: right;">    لا يوجد وقت  </td>
+        {% endif %}
+      </tr>
+
+      </table>
+      <div class="inf-text"> <samp style="padding-left: 8px;color: var(--primary-color);">  العروض :</samp> <br>  </div>
+      <div style="width: 98%;margin:auto; ">
+       <div style="  border: 2px solid var(--primary-color); border-radius: 8px;  padding: 10px; margin: 3px;  float: right; " >
+      <samp style="padding-left: 8px;  font-size:12px;">{{ data.serviceName}}</samp><br>
+       <samp class='buttonoffersamp2'  style="font-size:8px;">
+      <samp>  {{ data.price}}</samp>  <samp>{{web.currencyـname}} </samp>
+      </samp>
+      </div>
+      </div>
+      <div class="inf-text" > <samp style="padding-left: 8px;color: var(--primary-color); font-size: 13px;">  ملاحظات :  </samp> <br>  </div>
+      <div class="inf-text" style="font-size: 2px;"> <samp style="padding-left: 8px;color: var(--primary-color);font-size: 10px;"> <li> {{ data.note  }}  </li></samp>    </div>
+      <div style="width: 100%; border-bottom:1px solid var(--primary-color);margin-bottom: 15px;" ></div>
+       <div class="inf-text" style="width: 90%; margin-bottom: 10px;margin: auto;   "  >
+      <a href="{% url 'Dashboard:update_appointment'  id=data.id  %}">
+      <button type="button"  class="btn info"style="  width: 100%;  margin-bottom:20px;"   >تحديث</button></a>
+      <br>
+      <button class="btn info"
+      style="  background-color:red; color: #fff;  width: 100%;border-color: red;"  onclick="MOBIL('{{data.id}}')"  > إلغاء</button>  </div>
+      </div></div>
+      </tr> </table>
+
+      {% empty %}   </div>
+      <h2  style ="text-align:center; padding-top:50px; color: var(--primary-color);">
+      لا توجد مواعيد متاحة</h2>
+        {% endfor %}
+
+
+
+
+
+
+      <style>
+
+      input[type=text], select, textarea {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        margin-top: 6px;
+        margin-bottom: 16px;
+        resize: vertical;
+      }
+
+      input[type=submit] {
+        background-color: #fff;
+        color: white;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      input[type=submit]:hover {
+        background-color:  #fff;
+      }
+
+      /* Set a style for all buttons */
+      .buttonform {
+        background-color: #d1c091;
+        color: white;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        cursor: pointer;
+        width: 100%;
+      }
+
+      .buttonform:hover {
+        opacity: 0.8;
+      }
+
+      /* Extra styles for the cancel button */
+      .cancelbtn {
+        width: auto;
+        padding: 10px 18px;
+        background-color: #f44336;
+       text-align: center;
+         width:100px;
+          color:#fff;
+
+       border-radius:5px;
+       margin: auto
+      }
+
+      /* Center the image and position the close button */
+      .imgcontainer {
+        text-align: center;
+        margin: 24px 0 12px 0;
+        position: relative;
+      }
+
+      img.avatar {
+        width: 40%;
+        border-radius: 50%;
+      }
+
+      .container {
+        padding: 16px;
+      }
+
+      span.psw {
+        float: right;
+        padding-top: 16px;
+      }
+
+      /* The Modal (background) */
+      .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        padding-top: 60px;
+
+        margin: auto;
+      }
+
+      /* Modal Content/Box */
+      .modal-content {
+        <!-- background-color: none; -->
+        margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+        border: 1px solid #888;
+        width: 80%; /* Could be more or less, depending on screen size */
+
+
+      }
+
+      /* The Close Button (x) */
+      .close {
+         position: absolute;
+        left: 5px;
+        top: 0;
+        color: #000;
+        font-size: 35px;
+        font-weight: bold;
+
+      }
+
+      .close:hover,
+      .close:focus {
+        color: red;
+        cursor: pointer;
+      }
+
+      /* Add Zoom Animation */
+      .animate {
+        -webkit-animation: animatezoom 0.6s;
+        animation: animatezoom 0.6s
+      }
+
+      @-webkit-keyframes animatezoom {
+        from {-webkit-transform: scale(0)}
+        to {-webkit-transform: scale(1)}
+      }
+
+      @keyframes animatezoom {
+        from {transform: scale(0)}
+        to {transform: scale(1)}
+      }
+
+      /* Change styles for span and cancel button on extra small screens */
+      @media screen and (max-width: 300px) {
+        span.psw {
+           display: block;
+           float: none;
+        }
+        .cancelbtn {
+           width: 100%;
+        }
+      }
+      </style>
+
+
+
+          <style>
+
+          input[type=text], select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            margin-top: 6px;
+            margin-bottom: 16px;
+            resize: vertical;
+          }
+
+          input[type=submit] {
+            background-color: #fff;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+          }
+
+          input[type=submit]:hover {
+            background-color:  #fff;
+          }
+
+          /* Set a style for all buttons */
+          .buttonform {
+            background-color: #d1c091;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+          }
+
+          .buttonform:hover {
+            opacity: 0.8;
+          }
+
+          /* Extra styles for the cancel button */
+          .cancelbtn {
+            width: auto;
+            padding: 10px 18px;
+            background-color: #f44336;
+           text-align: center;
+             width:100px;
+              color:#fff;
+
+           border-radius:5px;
+           margin: auto
+          }
+
+          /* Center the image and position the close button */
+          .imgcontainer {
+            text-align: center;
+            margin: 24px 0 12px 0;
+            position: relative;
+          }
+
+          img.avatar {
+            width: 40%;
+            border-radius: 50%;
+          }
+
+          .container {
+            padding: 16px;
+          }
+
+          span.psw {
+            float: right;
+            padding-top: 16px;
+          }
+
+          /* The Modal (background) */
+          .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+            padding-top: 60px;
+
+            margin: auto;
+          }
+
+          /* Modal Content/Box */
+          .modal-content {
+            <!-- background-color: #fefefe; -->
+            margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+            border: 1px solid #888;
+            width: 80%; /* Could be more or less, depending on screen size */
+
+
+          }
+
+          /* The Close Button (x) */
+          .close {
+             position: absolute;
+            left: 5px;
+            top: 0;
+            color: #000;
+            font-size: 35px;
+            font-weight: bold;
+
+          }
+
+          .close:hover,
+          .close:focus {
+            color: red;
+            cursor: pointer;
+          }
+
+          /* Add Zoom Animation */
+          .animate {
+            -webkit-animation: animatezoom 0.6s;
+            animation: animatezoom 0.6s
+          }
+
+          @-webkit-keyframes animatezoom {
+            from {-webkit-transform: scale(0)}
+            to {-webkit-transform: scale(1)}
+          }
+
+          @keyframes animatezoom {
+            from {transform: scale(0)}
+            to {transform: scale(1)}
+          }
+
+          /* Change styles for span and cancel button on extra small screens */
+          @media screen and (max-width: 300px) {
+            span.psw {
+               display: block;
+               float: none;
+            }
+            .cancelbtn {
+               width: 100%;
+            }
+          }
+          </style>
+
+
+
+
+
+
+
+
+
+
+
+
+ <script type="text/javascript">
+
+      // Get the modal
+      var modal = document.getElementById('id01');
+
+      // When the user clicks anywhere outside of the modal, close it
+      window.onclick = function(event) {
+          if (event.target == modal) {
+              modal.style.display = "none";
+          }
+      }
+      </script>
+
+         <script>
+           function tk() {
+             var x = document.getElementById("tk");
+             if (x.style.display === "none") {
+               x.style.display = "block";
+             } else {
+               x.style.display = "none";
+             }
+           } </script>
+
+
+      <script>
+      /* When the user clicks on the button,
+      toggle between hiding and showing the dropdown content */
+      function dropbtnFunction() {
+        document.getElementById("myDropdown").classList.toggle("show");
+      }
+
+      // Close the dropdown if the user clicks outside of it
+      window.onclick = function(event) {
+        if (!event.target.matches('.dropbtn')) {
+          var dropdowns = document.getElementsByClassName("dropdown-content");
+          var i;
+          for (i = 0; i < dropdowns.length; i++) {
+            var openDropdown = dropdowns[i];
+            if (openDropdown.classList.contains('show')) {
+              openDropdown.classList.remove('show');
+            }
+          }
+        }
+      }
+      </script>
+      <script>
+      /* When the user clicks on the button,
+      toggle between hiding and showing the dropdown content */
+      function myFunction() {
+        document.getElementById("Dropdown").classList.toggle("show");
+      }
+
+      // Close the dropdown if the user clicks outside of it
+      window.onclick = function(event) {
+        if (!event.target.matches('.dropbtn')) {
+          var dropdowns = document.getElementsByClassName("dropdown-content");
+          var i;
+          for (i = 0; i < dropdowns.length; i++) {
+            var openDropdown = dropdowns[i];
+            if (openDropdown.classList.contains('show')) {
+              openDropdown.classList.remove('show');
+            }
+          }
+        }
+      }
+      </script>
+      <script type="text/javascript">
+      const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+
+      checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', (event) => {
+          // Iterate over all checkboxes and uncheck them except for the one that was clicked
+          checkboxes.forEach(cb => {
+            if (cb !== event.target) {
+              cb.checked = false;
+            }
+          });
+        });
+      });
+      </script>
+      <script>
+      // Get the modal
+      var modal = document.getElementById('id01');
+
+      // When the user clicks anywhere outside of the modal, close it
+      window.onclick = function(event) {
+          if (event.target == modal) {
+              modal.style.display = "none";
+          }
+      }
+      </script>
+
+       <script>
+      // Get the modal
+
+      function myCalendar() {
+        var x = document.getElementById("calender");
+        if (x.style.display === "none") {
+          x.style.display = "block";
+        } else {
+          x.style.display = "none";
+        }
+      }
+      </script>
+       <script>
+      // Get the modal
+
+      function mydropdown() {
+        var x = document.getElementById("dropdownmobil");
+        if (x.style.display === "none") {
+          x.style.display = "block";
+        } else {
+          x.style.display = "none";
+        }
+      }
+      </script>
+
+
+       <script>
+      // Get the modal
+
+      function mytkmobil() {
+        var x = document.getElementById("tkmobil");
+        if (x.style.display === "none") {
+          x.style.display = "block";
+        } else {
+          x.style.display = "none";
+        }
+      }
+      </script>
+
+
+      <script>
+      function openNav() {
+        document.getElementById("mySidenav").style.width = "250px";
+      }
+
+      function closeNav() {
+        document.getElementById("mySidenav").style.width = "0";
+      }
+      </script>
+
+
+
+      <script>
+
+
+
+      // Get all the status checkboxes
+      var statusCheckboxes = document.querySelectorAll('.status-checkbox');
+
+      // Loop through the checkboxes and add an event listener to each one
+      statusCheckboxes.forEach(function(checkbox) {
+        checkbox.addEventListener('change', function(event) {
+          // Get the checkbox value
+          var isChecked = this.checked;
+          // Get the appointment ID and status from the data attributes
+          var appointmentId = this.dataset.appointmentId;
+          var status = this.dataset.status;
+          // Send an AJAX request to the Django view using XMLHttpRequest
+          var url = "/Dashboard/update_status?appointment_id=" + appointmentId + "&status=" + status;
+           var xhr = new XMLHttpRequest();
+          xhr.onreadystatechange = function() {
+            if (this.readyState === 4 && this.status === 200) {
+              // alert('yes');
+              // // alert(status);
+              // alert(appointmentId);
+            }
+          };
+          xhr.open("GET", url, true);
+          xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+          xhr.send();
+        });
+      });
+
+
+
+
+
+      </script>
+
+
+
+      <!-- Include the Iconify script from a CDN -->
+      <script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
+      <script>
+      // Get the modal
+      var modalVisit = document.getElementById("myModalVisit");
+
+      // Get the button that opens the modal
+      var btnVisit = document.getElementById("myBtnVisit");
+
+      // Get the <span> element that closes the modal
+      var spanVisit = document.getElementsByClassName("closeVisit")[0];
+
+      // When the user clicks the button, open the modal
+
+      btnVisit.onclick = function() {
+        modalVisit.style.display = "block";
+      }
+
+      // When the user clicks on <span> (x), close the modal
+      spanVisit.onclick = function() {
+        modalVisit.style.display = "none";
+      }
+
+      // When the user clicks anywhere outside of the modal, close it
+      window.onclick = function(event) {
+        if (event.target == modalVisit) {
+          modalVisit.style.display = "none";
+        }
+      }
+      </script>
+
+
+
+
+
+
+
+    </section>
+
+    <script src="script.js"></script>
+{% endblock %}

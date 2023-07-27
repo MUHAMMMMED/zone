@@ -1,0 +1,349 @@
+
+
+{% extends "BaseGeneric.html" %}
+{% load static %}
+
+{% block content %}
+
+
+
+<link rel="stylesheet" href="{%static 'css/card.css' %}">
+ <a href="{% url 'Dashboard:Appointment_waiting' %}">
+
+ <button class="back-button"><i class="fas fa-arrow-left"></i> عودة</button>
+
+
+
+</a>
+
+
+
+<style media="screen">
+  .back-button {
+    background-color: #fff;
+    border: 1px solid #695cfe;
+    color: #695cfe;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    position:fixed;
+  }
+
+  .back-button i {
+    margin-right: 5px;
+  }
+
+  .back-button:hover {
+    background-color: #695cfe;
+    color: #fff;
+  }
+
+
+
+</style>
+
+
+  </div>
+</header>
+
+
+
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id={{web.pixal_id}}"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+{% if category_services %}
+
+
+  {% for category, services in category_services.items %}
+
+
+<section style="  height: auto;width:100%; margin: auto; margin-top: 15px; margin-bottom: 25px;">
+
+<div style="width: 99%; margin: auto;  border-radius: 8px;">
+
+<div style="width: 100%; margin: auto;">{% if category.Image %}
+<img   src="{{category.Image.url}}" alt=" {{category.Name}} " style="width:100%;
+box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;   border-radius: 8px;">{% endif %}
+
+</div>
+
+
+
+
+
+<div class="section-header ">
+<h2 class="section--title"  style="color:#695cfe;">
+
+ <span>{{ category.Name }}</span></h2>
+
+<hr class="divider"style="  background-color: #695cfe;  ">
+
+</div>
+
+
+
+
+
+    <div class="Container">
+
+
+
+     {% for service in services %}
+     <div class="card card-div">
+     <a href="{% url 'webs:service' web.slug category.id service.id %}">
+     <div class="discount-percentage">
+     {% if service.discount_percentage == 0 %}
+     {% else %}
+     <button type="button"class="discount-but"  name="button" style="  background-color: #695cfe;  "> {{ service.discount_percentage|floatformat }}%</button>
+     {% endif %}
+     </div>
+     <div class="gow-img-div">
+     {% if service.Image %}
+     <img src="{{ service.Image.url }}" alt="{{ service.Title }}">
+     {% endif %}
+     </div>
+     </a>
+     <div class="text-container">
+     <a href="{% url 'webs:service' web.slug category.id service.id %}">
+     <h2 class="item-name" style=" color:#695cfe;" >{{ service.Title }}</h2></a>
+     <div class="pricing-and-cart">
+     <div class="pricing">
+     {% if service.sale_price %}
+     <p class="current-price" style=" color:#695cfe;" >{{ service.sale_price }} {{web.currencyـname}}</p>
+     <p class="original-price" style=" margin-top:-20px;">{{ service.price }} {{web.currencyـname}}</p>
+     {% else %}
+     <p class="current-price"style=" color:#695cfe;" >{{ service.price }}{{web.currencyـname}}  </p>
+     {% endif %}
+
+
+
+   
+
+
+
+
+
+   </div>
+   <div style="  width: 150px;">
+   <div style="  width: 40%;float:right; position:relative;margin-top:5px; ">
+{% if  service.doctors.Image %}
+<img src="{{service.doctors.Image.url}}" alt="{{service.doctors.Name}} " class='card_imG'style="   border: 1px solid #695cfe;" >
+{% endif %}
+</div>  <div style="  width: 60%;float:right; position:relative; margin-top:10px;">
+<p style=" color:#695cfe;font-size: 10px; margin-bottom:0px;text-align: right;
+">دكتور مقدم الخدمة</p>
+</div>
+<p style=" color:#695cfe;font-size: 10px; margin-bottom:0px;text-align: center;">  {{ service.doctors.Name }} </p>
+
+</div>
+</div>
+    <div style="  position: relative;float: right;width: 100%; margin-top:-25px;" >
+     <a   class="add-service" data-id="{{ service.id }}" data-web-slug="{{ web.slug }}">
+     <button id="button" onclick="toggle('{{ service.id }}')" style="box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px ;background-color: #695cfe; color:#fff; "     ">احجز الآن</button>  </a>
+     <a href="{% url 'webs:service' web.slug category.id service.id %}">
+     <button id="button" style=" color:#695cfe;background-color: #fff;">  معرفة المزيد</button>  </a>  </div></div>  </div>
+     <div id="open-{{ service.id }}" class="modal">
+     <form class="modal-content animate" action=" " method="post">
+     <div class="imgcontainer">
+     <span onclick="document.getElementById('open-{{ service.id }}').style.display='none'" class="close" title="Close Modal">&times;</span>
+     <h4>يمكنك إضافة بيانات الحجز الخاصة بك هنا</h4>
+     </div>
+     <div class="container">
+     {% csrf_token %}
+     <input type="hidden" name="service_id" value="{{ service.id }}">
+     {{ form.as_p }}
+     <h3 style="text-align: center;">اختيار التاريخ المناسب </h3>
+     <ul id="date-select-{{ service.id }}" style="float:right; border: 2px solid #ddd; margin:20px; width: 90%; margin-right:5%; border-radius: 10px;"></ul>
+     <br>
+     <h3 style="text-align: center;"> اختتيار الوقت المناسب </h3>
+     <ul id="time-select" style="float:right;   margin:20px; width: 90%; margin-right:5%; border-radius: 10px;"></ul>
+     <br>
+     <ul id="time-select-{{ service.id }}"></ul>
+     <div class="form-group">
+     <input type="text" id="id_date_{{ service.id }}" name="id_date_{{ service.id }}" class="form-control"  style="display: none;"></div>
+     <div class="form-group">
+     <input type="text" id="id_time_{{ service.id }}" name="id_time_{{ service.id }}" class="form-control"  style="display: none;">
+     </div><br><div style="   width: 100%; " ></div>
+     <div class="form-group"  style=" float:right; margin:5px; width: 90%; margin-right:5%; border-radius: 10px;">
+     <p id="selected_date_{{ service.id }}"style="font-size: 20px;"> </p> </div> <br>
+     <div class="form-group"  style=" float:right;  margin:5px; width: 90%; margin-right:5%; border-radius: 10px;">
+     <p id="selected_time_{{ service.id }}" style="font-size: 20px;"></p> </div>
+     <button class="buttonform" type="submit">احجز</button></div>
+     <div class="container">
+     <div class="cancelbtn" onclick="document.getElementById('open-{{ service.id }}').style.display='none'">      إلغاء </div>  </div>  </form>  </div>
+
+       <script type="text/javascript">
+         function toggle(id) {
+           var modal = document.getElementById("open-" + id);
+           if (modal.style.display === "none") {
+             modal.style.display = "block";
+             getAvailableDates(id);
+           } else {
+             modal.style.display = "none";
+           }
+         }
+
+         function addAppointment(serviceId, webSlug, date) {
+           var csrfToken = $('input[name="csrfmiddlewaretoken"]').val();
+           $.ajax({
+             url: '/add_to_appointment/' + serviceId + '/' + webSlug + '/',
+             type: 'POST',
+             data: {
+               'serviceId': serviceId,
+               'webSlug': webSlug,
+               'date': date,
+               'csrfmiddlewaretoken': csrfToken
+             },
+             success: function(data) {
+               if (data.success) {
+                 console.log('Appointment added successfully');
+                 getAvailableDates(serviceId, date); // pass the date parameter
+               } else {
+                 console.log('Error adding appointment');
+               }
+             },
+             error: function(xhr, status, error) {
+               console.log(error);
+             }
+           });
+         }
+
+         function getAvailableDates(serviceId, date) {
+           var webSlug = '{{ web.slug }}';
+           $.ajax({
+             url: '/add_to_appointment/' + serviceId + '/' + webSlug + '/',
+             type: 'GET',
+             data: {
+               'date': date
+             },
+             success: function(data) {
+               if (data.dates) {
+                 var select = $('#date-select-' + serviceId);
+                 select.empty();
+                 $.each(data.dates, function(index, date) {
+                   console.log(date);
+                   var li = $('<li class="butsuccess">').text(date).attr('value', date);
+                   li.click(function() {
+                     select.find('.Selected').removeClass('Selected');
+                     $(this).addClass('Selected');
+                     ment(serviceId, webSlug, $(this).text()); // call the ment function when a date is selected
+                   });
+                   select.append(li);
+                 });
+               } else {
+                 console.log('No dates found');
+               }
+             },
+             error: function(xhr, status, error) {
+               console.log(error);
+             }
+           });
+         }
+
+
+         function ment(serviceId, webSlug, selectedDate) {
+           if (selectedDate) {
+             var csrfToken = $('input[name="csrfmiddlewaretoken"]').val();
+             $.ajax({
+               url: '/add_to_appointment/' + serviceId + '/' + webSlug + '/',
+               type: 'POST',
+               data: {
+                 'serviceId': serviceId,
+                 'webSlug': webSlug,
+                 'date': selectedDate,
+                 'csrfmiddlewaretoken': csrfToken
+               },
+               success: function(data) {
+                 if (data.success) {
+                   var select = $('#time-select-' + serviceId);
+                   select.empty();
+                   if (data.available_times && data.available_times.length > 0) {
+                     $.each(data.available_times, function(index, time) {
+                       var li = $('<li class="butsuccess">').text(time);
+                       li.click(function() {
+                         select.find('.Selected').removeClass('Selected');
+                         $(this).addClass('Selected');
+                         updateDateTimeInputs(selectedDate, $(this).text(), serviceId); // call the updateDateTimeInputs function with the selected date, time, and serviceId
+                       });
+                       select.append(li);
+                     });
+                   } else {
+                     select.append($('<p style="  background-color:#f2747436 ; width: 100%;  text-align: center;"  border-radius: 50px;  padding:5px; >').text('لا يوجد موعد متاح في هذا التاريخ اختر تاريخ اخر'));
+                   }
+                 } else {
+                   console.log('Error adding appointment');
+                 }
+               },
+               error: function(xhr, status, error) {
+                 console.log(error);
+               }
+             });
+           } else {
+             console.log('No date selected');
+           }
+         }
+         function updateDateTimeInputs(date, time, serviceId) {
+           if (date !== null && date !== undefined) {
+             $('#id_date_' + serviceId).val(date);
+             $('#selected_date_' + serviceId).html('&#10003; التاريخ المختار : ' + date);
+             // console.log('Date set to ' + date);
+             // alert('Date set to ' + date);
+           }
+           if (time !== null && time !== undefined) {
+             $('#id_time_' + serviceId).val(time);
+             // alert('Time set to ' + time);
+             $('#selected_time_' + serviceId).html('&#10003; الوقت المختار : ' + time);
+             // console.log('Time set to ' + time);
+           }
+         }
+
+
+       </script>
+
+       {% endfor %}
+
+
+
+
+
+   </div>
+
+
+</div>
+
+<br><br><br>
+</section>
+{% endfor %}
+{% else %}<br><br><br>
+<div  style =" width: 100%;">
+
+
+
+  <p style="tate-align:center;padding:50px;  " class="no-results-message">لا يوجد فئات أو خدمات موجودة.</p>
+
+  <br><br><br>  <br><br><br>  <br><br><br>
+  <br><br><br>  <br><br><br>  <br><br><br></div>
+{% endif %}
+
+
+
+
+ <style media="screen">
+   footer {
+display: none;
+
+
+   }
+</style>
+
+
+
+
+
+
+
+{% endblock %}

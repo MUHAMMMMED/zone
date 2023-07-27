@@ -1,0 +1,355 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+  table {
+    border-collapse: collapse;
+    width: 100%;
+
+  }
+  th, td {
+    text-align: center;
+    padding: 8px;
+    border: 1px solid #ddd;
+  }
+  th {
+    background-color: #4CAF50;
+    color: white;
+  }
+  tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  tr:hover {
+    background-color: #ddd;
+  }
+</style>
+
+
+
+
+
+ <h1>Pixel data for {{ web.name }}</h1>
+
+ {% if pixels %}
+   <table>
+     <thead>
+       <tr>
+         <th>Created at</th>
+         <th>web</th>
+         <th>Views Home</th>
+         <th>Clicks WhatsApp Home</th>
+         <th>Views Allcategories</th>
+         <th>Clicks WhatsApp Allcategories</th>
+         <th>Views Confirmation</th>
+         <th>Clicks WhatsApp Doctor</th>
+         <th>Views Doctor</th>
+         <th>Views Link page</th>
+
+       </tr>
+     </thead>
+
+
+
+
+     <tbody>
+       {% for pixel in pixels %}
+         <tr>
+           <td>{{ pixel.date }}</td>
+           <td>{{ pixel.web }}</td>
+           <td>{{ pixel.views_Home }}</td>
+           <td>{{ pixel.click_whatsapp_Home }}</td>
+           <td>{{ pixel.views_Allcategories }}</td>
+           <td>{{ pixel.click_whatsapp_Allcategories }}</td>
+           <td>{{ pixel.views_Confirmation }}</td>
+           <td>{{ pixel.click_whatsapp_Doctor }}</td>
+           <td>{{ pixel.view_Doctor }}</td>
+           <td>{{ pixel.views_Link_page }}</td>
+
+         </tr>
+       {% endfor %}
+     </tbody>
+   </table>
+ {% else %}
+   <p>No pixel data found for {{ web.name }}.</p>
+ {% endif %}
+
+
+
+
+ <h1>categories_pixel data for {{ web.name }}</h1>
+
+
+
+
+
+<table>
+  <thead>
+    <tr>
+      <th>  date  </th>
+      <th> name </th>
+      <th>views </th>
+      <th>Clicks </th>
+      <th>booking</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    {% for category_pixel in categories_pixel %}
+      <tr>
+        <td>{{ category_pixel.date }}</td>
+        <td>{{ category_pixel.CategoryName }}</td>
+        <td>{{ category_pixel.views }}</td>
+        <td>{{ category_pixel.click_whatsapp }}</td>
+
+        <td>{{ category_pixel.booking}}</td>
+
+
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+
+
+
+<h1>services_pixel data for {{ web.name }}</h1>
+
+
+
+<table>
+ <thead>
+   <tr>
+     <th> date  </th>
+     <th> web </th>
+     <th> name </th>
+     <th>views </th>
+     <th>Clicks </th>
+     <th>booking</th>
+
+   </tr>
+ </thead>
+ <tbody>
+   {% for services in Service_pixel %}
+     <tr>
+         <td>{{ services.date }}</td>
+       <td>{{ services.web   }}</td>
+          <td>{{ services.ServiceName  }}</td>
+       <td>{{ services.views }}</td>
+       <td>{{ services.click_whatsapp }}</td>
+
+       <td>{{ services.booking}}</td>
+
+
+     </tr>
+   {% endfor %}
+
+
+    </tbody>
+   </table>
+
+
+   <h1>Doctors__pixel data for {{ web.name }}</h1>
+
+
+
+
+
+   <table>
+    <thead>
+      <tr>
+      <th> date </th>
+        <th> web </th>
+        <th> Name </th>
+        <th>views </th>
+        <th>Clicks </th>
+        <th>booking</th>
+
+      </tr>
+    </thead>
+    <tbody>
+      {% for services in Doctors_pixel %}
+        <tr>
+
+
+
+
+            <td>{{ services.date }}</td>
+           <td>{{ services.web }}</td>
+           <td>{{ services.DoctorName }}</td>
+           <td>{{ services.views }}</td>
+           <td>{{ services.click_whatsapp }}</td>
+
+          <td>{{ services.booking}}</td>
+
+
+        </tr>
+      {% endfor %}
+
+
+
+
+ </tbody>
+</table>
+<!-- filter.html -->
+<style>
+    form {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        margin: 20px 0;
+    }
+    label {
+        margin-right: 10px;
+    }
+    input[type="date"] {
+        padding: 5px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        margin-right: 10px;
+    }
+    button[type="submit"] {
+        padding: 5px 20px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    button[type="submit"]:hover {
+        background-color: #0069d9;
+    }
+</style>
+
+<!-- filter.html -->
+
+    <form method="post">
+        {% csrf_token %}
+        <label for="start_date">Start Date:</label>
+        <input type="date" id="start_date" name="start_date">
+        <label for="end_date">End Date:</label>
+        <input type="date" id="end_date" name="end_date">
+        <button type="submit">Generate Report</button>
+    </form>
+
+
+
+<h2>Pixel Stats</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Views (Home)</th>
+            <th>Clicks (WhatsApp) (Home)</th>
+            <th>Views (All Categories)</th>
+            <th>Clicks (WhatsApp) (All Categories)</th>
+            <th>Views (Confirmation)</th>
+            <th>Clicks (WhatsApp) (Doctor)</th>
+            <th>Views (Doctor)</th>
+            <th>Views (Link Page)</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{ pixel_stats.views_Home__sum }}</td>
+            <td>{{ pixel_stats.click_whatsapp_Home__sum }}</td>
+            <td>{{ pixel_stats.views_Allcategories__sum }}</td>
+            <td>{{ pixel_stats.click_whatsapp_Allcategories__sum }}</td>
+            <td>{{ pixel_stats.views_Confirmation__sum }}</td>
+            <td>{{ pixel_stats.click_whatsapp_Doctor__sum }}</td>
+            <td>{{ pixel_stats.view_Doctor__sum }}</td>
+            <td>{{ pixel_stats.views_Link_page__sum }}</td>
+        </tr>
+    </tbody>
+</table>
+
+
+
+
+
+
+
+<!-- report.html -->
+<table>
+    <thead>
+        <tr>
+            <th> categories Name</th>
+            <th>Views</th>
+            <th>Clicks (WhatsApp)</th>
+            <th>Bookings</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for category in categories_stats %}
+        <tr>
+            <td>{{ category.name }}</td>
+            <td>{{ category.views }}</td>
+            <td>{{ category.click_whatsapp }}</td>
+            <td>{{ category.booking }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+
+
+
+<!-- report.html -->
+<table>
+    <thead>
+        <tr>
+            <th>doctor Name</th>
+            <th>Views</th>
+            <th>Clicks (WhatsApp)</th>
+            <th>Bookings</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for doctor in doctor_stats %}
+        <tr>
+            <td>{{ doctor.name }}</td>
+            <td>{{ doctor.views }}</td>
+            <td>{{ doctor.click_whatsapp }}</td>
+            <td>{{ doctor.booking }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+
+
+
+
+<!-- report.html -->
+<table>
+    <thead>
+        <tr>
+            <th>Service Name</th>
+            <th>Views</th>
+            <th>Clicks (WhatsApp)</th>
+            <th>Bookings</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for service_stat in service_stats %}
+        <tr>
+            <td>{{ service_stat.name }}</td>
+            <td>{{ service_stat.views }}</td>
+            <td>{{ service_stat.click_whatsapp }}</td>
+            <td>{{ service_stat.booking }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+{% endblock %}

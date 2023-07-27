@@ -1,0 +1,399 @@
+
+{% load static %}
+ <html dir="rtl" lang="ar">
+ <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+
+ <style>
+
+ @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+ /* Google Font Import - Cairo */
+ @import url('https://fonts.googleapis.com/css2?family=Cairo:slnt,wght@0,500;0,700;2,400&family=Koulen&display=swap');
+
+ *{
+     margin: 0;
+     padding: 0;
+     box-sizing: border-box;
+ /*    font-family: 'Poppins', sans-serif;*/
+ font-family: 'Cairo', sans-serif;
+
+ }
+
+
+ body{
+     min-height: 100vh;
+     background-color:  #695cfe;
+
+ }
+
+
+ .cardform{width: 60%; background:#fff; box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px; border: 1px solid #ccc; border-radius: 20px; margin:auto;}
+
+ form {
+     border-radius: 20px;
+     padding: 15px;
+ }
+
+ .container {
+     border-radius: 5px;
+     padding: 20px;
+     background-color: #fff;
+ }
+
+ input[type=text], input[type=submit] {
+     width: 100%;
+     padding: 12px;
+     margin: 8px 0;
+     display: inline-block;
+     border: 1px solid #695cfe;
+     box-sizing: border-box;
+ }
+
+ input[type=text], select, textarea, time, date {
+     width: 100%;
+     padding: 12px;
+     border: 1px solid #695cfe;
+     border-radius: 4px;
+     box-sizing: border-box;
+     margin-top: 6px;
+     margin-bottom: 16px;
+     resize: vertical;
+ }
+
+ input[type=date] {
+     width: 100%;
+     padding: 12px;
+     border: 1px solid #695cfe;
+     border-radius: 4px;
+     box-sizing: border-box;
+     margin-top: 6px;
+     margin-bottom: 16px;
+     resize: vertical;
+ }
+ input[type=number] {
+     width: 100%;
+     padding: 12px;
+     border: 1px solid #695cfe;
+     border-radius: 4px;
+     box-sizing: border-box;
+     margin-top: 6px;
+     margin-bottom: 16px;
+     resize: vertical;
+ }
+ input[type=time] {
+     width: 100%;
+     padding: 12px;
+     border: 1px solid #695cfe;
+     border-radius: 4px;
+     box-sizing: border-box;
+     margin-top: 6px;
+     margin-bottom: 16px;
+     resize: vertical;
+ }
+
+ input[type=checkbox] {
+     margin-top: 16px;
+ }
+
+ button {
+     background-color: #695cfe;
+     color: white;
+     border: none;
+      width: 100%;
+     height: 40px;
+     font-size: 23px;
+     border-radius:20px 20px 20px 20px ;
+ }
+
+ button:hover {
+     opacity: 0.8;
+ }
+
+
+  @media screen and (max-width: 650px) {
+
+.cardform{width: 90%; background:#fff; box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px; border: 1px solid #ccc; border-radius: 20px; margin:auto;}
+
+
+  }
+ </style>
+
+ <link rel="stylesheet" href="{%static 'css/card.css' %}">
+  <a href="{% url 'Dashboard:Appointment_waiting' %}">
+
+  <button class="back-button"><i class="fas fa-arrow-left"></i> عودة </button>
+
+
+
+ </a>
+
+
+ <style media="screen">
+ .back-button {
+   background-color: #fff;
+   border: 1px solid #695cfe;
+   color: #695cfe;
+   padding: 5px 10px;
+   border-radius: 5px;
+   font-size: 16px;
+   cursor: pointer;
+  margin:10px;
+  width: 100px;
+ }
+
+ .back-button i {
+   margin-right: 5px;
+ }
+
+ .back-button:hover {
+  border: 1px solid #fff;
+   background-color:#695cfe;
+   color: #fff;
+ }
+
+
+ </style>
+
+
+
+ <br>
+ <div class="cardform">
+
+
+ <form method="POST">
+     {% csrf_token %}
+
+     <h2 style="text-align: center;">تحديث بيانات الحجز</h2>
+
+     {{ form.as_p }}
+
+     <h3 style="text-align: right;color:#695cfe;">  التاريخ : {{ appointment.date }} </h3>
+
+     <h3 style="text-align:right;color:#695cfe;">  الوقت  : {{ appointment.time }} </h3>
+
+
+
+
+
+     <h3 style="text-align: center;">اختيار التاريخ المناسب</h3>
+     <ul id="date-select" style="float:right; border: 0px solid #ddd; margin:20px; width: 95%; margin-right:5%; border-radius: 10px;"></ul>
+     <br>
+
+     <h3 style="text-align: center;">اختتيار الوقت المناسب</h3>
+     <ul id="time-select" style="float:right; margin:20px; width: 95%; margin-right:5%; border-radius: 10px;"></ul>
+     <br>
+
+
+
+     <div class="form-group">
+         <input type="text" id="id_date" name="id_date" class="form-control" style="display: none;">
+     </div>
+
+     <div class="form-group">
+         <input type="text" id="id_time" name="id_time" class="form-control" style="display: none;">
+     </div>
+     <br>
+
+     <div style="width: 100%;"></div>
+
+     <div class="form-group" style="float:right; margin:5px; width: 90%; margin-right:5%; border-radius: 10px;">
+         <p id="selected_date" style="font-size: 20px;"></p>
+     </div>
+     <br>
+
+     <div class="form-group" style="float:right; margin:5px; width: 90%; margin-right:5%; border-radius: 10px;">
+         <p id="selected_time" style="font-size: 20px;"></p>
+     </div>
+
+     <button type="submit" class="button">تحديث</button>
+ </form>
+
+     </div>
+<br><br><br>
+
+
+ <!-- Include jQuery library -->
+ <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+ <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+ <!-- Include your JavaScript code -->
+ <script>
+
+
+ $(document).ready(function() {
+   var serviceId = {{ service }};
+   var webSlug = "{{ web}}";
+   var currentDate = new Date().toISOString().slice(0,10); // get current date in YYYY-MM-DD format
+   addAppointment(serviceId, webSlug, currentDate); // pass the current date as the date parameter
+ });
+
+ function addAppointment(serviceId, webSlug, date=null) {
+   var csrfToken = $('input[name="csrfmiddlewaretoken"]').val();
+   $.ajax({
+     url: '/Dashboard/add_to_appointment/'+ serviceId +'/'+ webSlug + '/',
+     type: 'GET',
+     data: {
+       'serviceId': serviceId,
+       'webSlug': webSlug,
+       'date': date,
+       'csrfmiddlewaretoken': csrfToken
+     },
+
+     success: function(data) {
+       // console.log('Appointment added successfully');
+       // console.log('Service ID:', serviceId);
+       // console.log('Date:', date);
+       // console.log('Available dates:', data.dates);
+
+       getAvailableDates(serviceId, webSlug, date);
+       if (!data.success) {
+         console.log('Error adding appointment');
+       }
+     },
+
+
+     error: function(xhr, status, error) {
+       console.log(error);
+     }
+   });
+ }
+
+ function getAvailableDates(serviceId, date) {
+   var webSlug = '{{ web }}';
+   // console.log('getAvailableDates');
+   // console.log('Service ID:', serviceId);
+   // console.log('Date:', date);
+   $.ajax({
+     url: '/Dashboard/add_to_appointment/'+ serviceId +'/'+ webSlug + '/',
+     type: 'GET',
+     data: {
+       'date': date
+     },
+     success: function(data) {
+       if (data.dates) {
+         var select = $('#date-select');
+         select.empty();
+         $.each(data.dates, function(index, date) {
+           console.log(date);
+           var li = $('<li class="butsuccess">').text(date).attr('value', date);
+           console.log('li:', li);
+           li.click(function() {
+             select.find('.Selected').removeClass('Selected');
+             $(this).addClass('Selected');
+             ment(serviceId, webSlug, $(this).text()); // call the ment function when a date is selected
+           });
+           select.append(li);
+         });
+       } else {
+         console.log('No dates found');
+       }
+     },
+     error: function(xhr, status, error) {
+       console.log(error);
+     }
+   });
+ }
+
+
+
+
+
+
+
+
+
+
+   function ment(serviceId, webSlug, selectedDate) {
+     if (selectedDate) {
+       var csrfToken = $('input[name="csrfmiddlewaretoken"]').val();
+       $.ajax({
+         url: '/Dashboard/add_to_appointment/'+ serviceId +'/'+ webSlug + '/',
+         type: 'POST',
+         data: {
+           'serviceId': serviceId,
+           'webSlug': webSlug,
+           'date': selectedDate,
+           'csrfmiddlewaretoken': csrfToken
+         },
+         success: function(data) {
+           if (data.success) {
+             var select = $('#time-select');
+             select.empty();
+             if (data.available_times && data.available_times.length > 0) {
+               $.each(data.available_times, function(index, time) {
+                 var li = $('<li class="butsuccess">').text(time);
+                 li.click(function() {
+                   select.find('.Selected').removeClass('Selected');
+                   $(this).addClass('Selected');
+                   updateDateTimeInputs(selectedDate, $(this).text(), serviceId); // call the updateDateTimeInputs function with the selected date, time, and serviceId
+                 });
+                 select.append(li);
+               });
+             } else {
+               select.append($('<p style="  background-color:#f2747436 ; width: 100%;  text-align: center;"  border-radius: 50px;  padding:5px; >').text('لا يوجد موعد متاح في هذا التاريخ اختر تاريخ اخر'));
+             }
+           } else {
+             console.log('Error adding appointment');
+           }
+         },
+         error: function(xhr, status, error) {
+           console.log(error);
+         }
+       });
+     } else {
+       console.log('No date selected');
+     }
+   }
+   function updateDateTimeInputs(date, time, serviceId) {
+     if (date !== null && date !== undefined) {
+       $('#id_date').val(date);
+       $('#selected_date').html('&#10003; التاريخ المختار : ' + date);
+       // console.log('Date set to ' + date);
+       // alert('Date set to ' + date);
+     }
+     if (time !== null && time !== undefined) {
+       $('#id_time').val(time);
+       // alert('Time set to ' + time);
+       $('#selected_time').html('&#10003; الوقت المختار : ' + time);
+       // console.log('Time set to ' + time);
+     }
+   }
+
+
+
+   </script>
+
+
+
+
+   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+     <style>
+     /* Green */
+     .butsuccess {
+       border: 2px solid  #695cfe;
+       background-color: white;
+       color: black;
+       padding: 3px 10px;
+       font-size: 13px;
+       cursor: pointer;
+       border-color:  #695cfe;
+       list-style: none;
+       float: right;
+       margin: 10px;
+       border-radius: 50px;
+       color: #695cfe;
+     }
+
+     .butsuccess:hover {
+       background-color: #695cfe;
+       color: white;
+     }
+
+
+
+     .Selected {
+       background-color:  #695cfe;
+       color: white;
+     }
+     </style>

@@ -1,0 +1,119 @@
+{% load static%}
+{% load bootstrap4 %}
+
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+.container {
+  position: relative;
+  text-align: center;
+  color: white;
+  width:50%;
+  margin: auto;
+  margin-top:50px;
+}
+
+.centered {
+  position: absolute;
+  top:100%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+</style>
+
+<style>
+body {font-family: Arial, Helvetica, sans-serif;}
+* {box-sizing: border-box;}
+
+input[type=text], select, textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-top: 6px;
+  margin-bottom: 16px;
+  resize: vertical;
+}
+
+ button  {
+  background-color: #695cfe;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+ button :hover {
+  background-color: #695cfe;
+}
+
+
+</style>
+
+
+</head>
+<body>
+
+<div class="container">
+  <img src="{% static 'images/bookingsupport.jpeg' %}" alt="Snow" style="width:100%;">
+
+  <div class="centered">
+
+    <form method="post">
+  {% csrf_token %}
+    <input type="text" id="bookingsupport" name="bookingsupport" placeholder="  كلمه السر">
+
+    <button type="submit" name="submit_bookingsupport">تسجيل الدخول</button>
+
+   </form>
+
+
+  </div>
+</div>
+
+
+<div class="container">
+  <img src="{% static 'images/REPORT.jpeg' %}" alt="Snow" style="width:100%;">
+
+  <div class="centered">
+
+    <form method="post">
+  {% csrf_token %}
+    <input type="text" id="REPORT" name="REPORT" placeholder=" كلمه السر">
+    <button type="submit" name="submit_REPORT">تسجيل الدخول</button>
+
+
+
+  </form>
+
+
+  </div>
+</div>
+
+<div class="container">
+  <img src="{% static 'images/settings.avif' %}" alt="Snow" style="width:100%;">
+
+  <div class="centered">
+
+    <form  method="post">
+  {% csrf_token %}
+    <input type="text" id="settings" name="settings" placeholder=" كلمه السر">
+
+
+    <button type="submit" name="submit_settings">تسجيل الدخول</button>
+  </form>
+
+
+  </div>
+</div>
+
+
+</body>
+</html>
